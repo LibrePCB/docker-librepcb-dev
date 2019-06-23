@@ -64,6 +64,19 @@ a recent compiler.
 3. Add and push a Git tag with the exact image tag (e.g. `ubuntu-18.04-1`).
 
 
+## Using Images Locally
+
+To compile LibrePCB locally using these images, run the container like this:
+
+```bash
+docker run -it --rm \
+  --user "$(id -u):$(id -g)" \
+  -v "$(pwd):/code" -w "/code" \
+  -e OS=linux -e ARCH=x86_64 \
+  librepcb/librepcb-dev:<tag>
+```
+
+
 ## License
 
 The content in this repository is published under the
