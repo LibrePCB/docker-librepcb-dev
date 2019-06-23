@@ -44,6 +44,15 @@ Based on Ubuntu 18.04, containing Qt from the official Ubuntu package
 repository. This image is intended to check if LibrePCB compiles on a standard
 Ubuntu 18.04.
 
+### `ubuntu-19.04`
+
+Based on Ubuntu 19.04, containing Qt from the official Ubuntu package
+repository. This image is intended to check if LibrePCB compiles on a standard
+Ubuntu 19.04.
+
+In addition, this image contains GCC 9 to check if LibrePCB can be built with
+a recent compiler.
+
 
 ## Updating Images
 
