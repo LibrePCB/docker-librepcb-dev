@@ -12,6 +12,12 @@ The built images are hosted at
 
 ## Available Tags
 
+### `debian-8`
+
+Based on Debian 8 (Jessie), containing Qt from the official Debian package
+repository. This image is intended to check if LibrePCB compiles on a standard
+Debian 8.
+
 ### `ubuntu-14.04`
 
 Based on Ubuntu 14.04, containing Qt from the official Ubuntu package
