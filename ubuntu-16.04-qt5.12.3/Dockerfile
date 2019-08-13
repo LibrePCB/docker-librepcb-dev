@@ -47,7 +47,7 @@ RUN wget -cq "$QTIFW_URL_BASE/QtInstallerFramework-linux-x64.run" -O ./QtIFW.run
   && mv -fv ~/Qt/QtIFW-$QTIFW_VERSION/bin/* /usr/local/bin/
 
 # Install linuxdeployqt
-ARG LINUXDEPLOYQT_VERSION="5"
+ARG LINUXDEPLOYQT_VERSION="6"
 ARG LINUXDEPLOYQT_URL="https://github.com/probonopd/linuxdeployqt/releases/download/$LINUXDEPLOYQT_VERSION/linuxdeployqt-$LINUXDEPLOYQT_VERSION-x86_64.AppImage"
 RUN wget -cq "$LINUXDEPLOYQT_URL" -O /linuxdeployqt.AppImage \
   && chmod a+x /linuxdeployqt.AppImage \
