@@ -31,7 +31,7 @@ ARG QT_VERSION="512"
 ARG QT_PPA="ppa:beineri/opt-qt-5.12.3-xenial"
 run add-apt-repository "$QT_PPA" -y \
   && apt-get update -q \
-  && apt-get install -qq "qt${QT_VERSION}base" "qt${QT_VERSION}tools" \
+  && apt-get install -qq "qt${QT_VERSION}base" "qt${QT_VERSION}tools" "qt${QT_VERSION}svg" \
   && rm -rf /var/lib/apt/lists/*
 ENV QTDIR="/opt/qt512" \
     PATH="/opt/qt512/bin:$PATH" \
