@@ -20,8 +20,11 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     libqt5opengl5-dev \
     libqt5svg5-dev \
     libqt5sql5-sqlite \
+    libquazip5-1 \
+    libquazip5-dev \
     make \
     openssl \
+    pkg-config \
     python3 \
     python3-pip \
     python3-setuptools \
