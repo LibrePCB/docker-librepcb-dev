@@ -12,6 +12,8 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     file \
     g++ \
     git \
+    googletest \
+    googletest-tools \
     graphviz \
     libc++-dev \
     libc++abi-dev \
