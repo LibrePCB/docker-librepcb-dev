@@ -50,5 +50,8 @@ RUN pip install \
   "future==0.17.1" \
   "flake8==3.7.7"
 
+# Add missing pkg-config files
+ADD quazip.pc /usr/lib/pkgconfig/
+
 # LibrePCB's unittests expect that there is a USERNAME environment variable
 ENV USERNAME="root"
