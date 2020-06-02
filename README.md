@@ -69,6 +69,9 @@ Based on Ubuntu 20.04, containing Qt from the official Ubuntu package
 repository. This image is intended to check if LibrePCB compiles on a standard
 Ubuntu 20.04.
 
+In addition, this image contains necessary tools for dynamic linking of
+LibrePCB (pkg-config, libquazip5-dev, googletest).
+
 
 ## Updating Images
 
