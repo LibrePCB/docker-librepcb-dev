@@ -72,6 +72,12 @@ Ubuntu 20.04.
 In addition, this image contains necessary tools for dynamic linking of
 LibrePCB (pkg-config, libquazip5-dev, googletest).
 
+### `windowsservercore-ltsc2019-qt5.15.0-32bit`
+
+Based on Windows Server Core LTSC2019 with Qt5.15.0 and MinGW 8.1 32-bit. This
+image is intended for deployment of official binary releases of LibrePCB for
+Windows.
+
 
 ## Updating Images
 
