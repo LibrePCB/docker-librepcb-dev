@@ -24,6 +24,8 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     libqt5sql5-sqlite \
     libquazip5-1 \
     libquazip5-dev \
+    libpolyclipping22 \
+    libpolyclipping-dev \
     make \
     openssl \
     pkg-config \
