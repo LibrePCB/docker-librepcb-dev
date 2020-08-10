@@ -70,7 +70,7 @@ repository. This image is intended to check if LibrePCB compiles on a standard
 Ubuntu 20.04.
 
 In addition, this image contains necessary tools for dynamic linking of
-LibrePCB (pkg-config, libquazip5-dev, googletest).
+LibrePCB (pkg-config, libquazip5, libpolyclipping, googletest).
 
 ### `windowsservercore-ltsc2019-qt5.15.0-32bit`
 
