@@ -6,6 +6,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     bzip2 \
     ca-certificates \
     clang \
+    cmake \
     curl \
     dbus \
     doxygen \
@@ -29,6 +30,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     python-wheel \
     qt5-default \
     qtdeclarative5-dev \
+    qttools5-dev \
     qttools5-dev-tools \
     wget \
     xvfb \
