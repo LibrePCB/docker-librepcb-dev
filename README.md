@@ -48,6 +48,10 @@ official binary releases.
 
 Same purpose as `ubuntu-16.04-qt5.12.3`, but with Qt 5.14.2.
 
+### `ubuntu-16.04-qt5.15.2`
+
+Same purpose as `ubuntu-16.04-qt5.12.3`, but with Qt 5.15.2.
+
 ### `ubuntu-18.04`
 
 Based on Ubuntu 18.04, containing Qt from the official Ubuntu package
@@ -77,6 +81,10 @@ LibrePCB (pkg-config, libquazip5, libpolyclipping, googletest).
 Based on Windows Server Core LTSC2019 with Qt5.15.0 and MinGW 8.1 32-bit. This
 image is intended for deployment of official binary releases of LibrePCB for
 Windows.
+
+### `windowsservercore-ltsc2019-qt5.15.2-32bit`
+
+Same purpose as `windowsservercore-ltsc2019-qt5.15.0-32bit`, but with Qt 5.15.2.
 
 
 ## Updating Images
