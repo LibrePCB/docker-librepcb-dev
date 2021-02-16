@@ -29,12 +29,11 @@ RUN powershell -Command Invoke-WebRequest $env:OPENSSL_URL -OutFile 'C:/tmp.exe'
   && del C:\tmp.exe
 
 # Install CMake
-ARG CMAKE_VERSION="3.19.5"
-ARG CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-win64-x64.zip"
-RUN powershell -Command Invoke-WebRequest $env:CMAKE_URL -OutFile 'C:\tmp.zip' -UseBasicParsing ; \
-  && 7z x C:\tmp.zip -oC:\ -bsp1 \
-  && setx PATH "%PATH%;C:\cmake-%CMAKE_VERSION%-win64-x64\bin" \
-  && del C:\tmp.zip
+ARG CMAKE_URL="https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_cmake/qt.tools.cmake.win64/3.19.2-202101071154windows64_x64_cmake_tools.7z"
+RUN powershell -Command Invoke-WebRequest $env:CMAKE_URL -OutFile 'C:/tmp.7z' -UseBasicParsing ; \
+  && 7z x C:/tmp.7z -oC:/Qt -bsp1 \
+  && setx PATH "%PATH%;C:\Qt\Tools\CMake_64\bin" \
+  && del C:\tmp.7z
 
 # Install Qt whatever DLLs
 ARG QT_VERSION="5.15.0"
