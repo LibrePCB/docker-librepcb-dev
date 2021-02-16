@@ -48,6 +48,10 @@ official binary releases.
 
 Same purpose as `ubuntu-16.04-qt5.12.3`, but with Qt 5.14.2.
 
+### `ubuntu-16.04-qt5.15.2`
+
+Same purpose as `ubuntu-16.04-qt5.12.3`, but with Qt 5.15.2.
+
 ### `ubuntu-18.04`
 
 Based on Ubuntu 18.04, containing Qt from the official Ubuntu package
