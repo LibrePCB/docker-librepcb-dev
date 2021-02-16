@@ -28,6 +28,13 @@ RUN powershell -Command Invoke-WebRequest $env:OPENSSL_URL -OutFile 'C:/tmp.exe'
   && C:/tmp.exe /silent /verysilent /suppressmsgboxes /sp- /dir=C:/OpenSSL-Win32 \
   && del C:\tmp.exe
 
+# Install CMake
+ARG CMAKE_URL="https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_cmake/qt.tools.cmake.win64/3.19.2-202101071154windows64_x64_cmake_tools.7z"
+RUN powershell -Command Invoke-WebRequest $env:CMAKE_URL -OutFile 'C:/tmp.7z' -UseBasicParsing ; \
+  && 7z x C:/tmp.7z -oC:/Qt -bsp1 \
+  && setx PATH "%PATH%;C:\Qt\Tools\CMake_64\bin" \
+  && del C:\tmp.7z
+
 # Install Qt whatever DLLs
 ARG QT_VERSION="5.15.0"
 ARG QT_URL="https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/qt5_5150/qt.qt5.5150.win32_mingw81/5.15.0-0-202005150700"
