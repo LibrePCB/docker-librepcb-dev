@@ -36,7 +36,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
 # Install PIP (the version from APT is not sufficient)
-RUN curl "https://bootstrap.pypa.io/get-pip.py" -o get-pip.py \
+RUN curl "https://bootstrap.pypa.io/2.7/get-pip.py" -o get-pip.py \
   && python get-pip.py
 
 # Install Python packages

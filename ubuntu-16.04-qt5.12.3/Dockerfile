@@ -58,7 +58,7 @@ RUN wget -cq "$LINUXDEPLOYQT_URL" -O /linuxdeployqt.AppImage \
   && rm /linuxdeployqt.AppImage
 
 # Install PIP (the version from APT is not sufficient)
-RUN curl "https://bootstrap.pypa.io/get-pip.py" -o get-pip.py \
+RUN curl "https://bootstrap.pypa.io/2.7/get-pip.py" -o get-pip.py \
   && python get-pip.py
 
 # Install Python packages
