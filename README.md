@@ -82,6 +82,10 @@ Based on Windows Server Core LTSC2019 with Qt5.15.0 and MinGW 8.1 32-bit. This
 image is intended for deployment of official binary releases of LibrePCB for
 Windows.
 
+### `windowsservercore-ltsc2019-qt5.15.2-32bit`
+
+Same purpose as `windowsservercore-ltsc2019-qt5.15.0-32bit`, but with Qt 5.15.2.
+
 
 ## Updating Images
 
