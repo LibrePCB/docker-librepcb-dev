@@ -18,6 +18,8 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     graphviz \
     libc++-dev \
     libc++abi-dev \
+    libdxflib3 \
+    libdxflib-dev \
     libglu1-mesa-dev \
     libqt5opengl5 \
     libqt5opengl5-dev \
