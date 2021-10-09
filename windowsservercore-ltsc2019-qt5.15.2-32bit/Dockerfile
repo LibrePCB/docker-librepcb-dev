@@ -6,14 +6,11 @@ RUN powershell -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command \
   && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 
 # Install Chocolatey Packages
-# Note: Funq doesn't work with Python3 or x64, thus we need Python2 x86.
+# Note: Funq requires to install x86 Python since Qt is also x86!
 ENV PYTHONIOENCODING "UTF-8"
 RUN choco install -y 7zip ccache vcredist2017 \
   && choco install -y git --params "/GitAndUnixToolsOnPath /NoAutoCrlf" \
-  && choco install --forcex86 -y python2
-
-# Install Python Packages
-RUN pip install future "flake8==3.7.7"
+  && choco install --forcex86 -y python3 --version 3.10.0
 
 # Install MinGW
 ARG MINGW_URL="https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_mingw/qt.tools.win32_mingw810/8.1.0-1-202004170606i686-8.1.0-release-posix-dwarf-rt_v6-rev0.7z"
