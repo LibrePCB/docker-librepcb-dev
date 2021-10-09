@@ -21,10 +21,10 @@ RUN powershell -Command Invoke-WebRequest $env:MINGW_URL -OutFile 'C:/tmp.7z' -U
   && del C:\tmp.7z
 
 # Install OpenSSL
-ARG OPENSSL_URL="http://slproweb.com/download/Win32OpenSSL_Light-1_1_1g.exe"
-RUN powershell -Command Invoke-WebRequest $env:OPENSSL_URL -OutFile 'C:/tmp.exe' -UseBasicParsing ; \
-  && C:/tmp.exe /silent /verysilent /suppressmsgboxes /sp- /dir=C:/OpenSSL-Win32 \
-  && del C:\tmp.exe
+ARG OPENSSL_URL="https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_openssl_x86/qt.tools.openssl.win_x86/1.1.1-10openssl_1.1.1j_prebuild_x86.7z"
+RUN powershell -Command Invoke-WebRequest $env:OPENSSL_URL -OutFile 'C:/tmp.7z' -UseBasicParsing ; \
+  && 7z x C:/tmp.7z -oC:/Qt -bsp1 \
+  && del C:\tmp.7z
 
 # Install Qt whatever DLLs
 ARG QT_VERSION="5.15.2"
