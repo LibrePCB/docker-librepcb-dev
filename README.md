@@ -12,6 +12,19 @@ The built images are hosted at
 
 ## Available Tags
 
+### `centos-7-qt5.15.2`
+
+Based on CentOS 7, containing Qt 5.15.2 from official Qt binary releases.
+This image is intended for deployment of official LibrePCB binary releases
+(installer and AppImage), which should be linked against an old version of
+`glibc` (for maximum compatibility) but still using a recent Qt version (to
+get the latest features of Qt).
+
+In addition, this image contains
+[`linuxdeployqt`](https://github.com/probonopd/linuxdeployqt) and the
+[Qt Installer Framework](https://doc.qt.io/qtinstallerframework/) to build the
+official binary releases.
+
 ### `debian-8`
 
 Based on Debian 8 (Jessie), containing Qt from the official Debian package
