@@ -89,12 +89,19 @@ Same purpose as `windowsservercore-ltsc2019-qt5.15.0-32bit`, but with Qt 5.15.2.
 
 ## Updating Images
 
+**Important: On Linux, use the helper script `./build.sh` since it makes the
+procedure less error prone!**
+
 1. Add/modify the Dockerfiles, update this README and commit all changes.
-2. Run `./build.sh <image-tag> <version> --push` to build and push the image.
-   Make sure to pass a version number which does not yet exist on Docker Hub!
+2. Run `./build.sh <image-name> <version> --push` to build and push the image.
+   Use the next unused version number, i.e. the previous image version plus one.
    Use just a single number as version identifier, e.g. `1`, `2`, `3`. Semantic
    versioning is not needed since CI always links to one specific version.
-3. Add and push a Git tag with the exact image tag (e.g. `ubuntu-18.04-1`).
+3. Test the new image by pushing the LibrePCB repository to trigger the CI.
+4. If everything was successful, merge the changes into `master`.
+5. On the `master` branch (merge commit checked out!), create the corresponding
+   Git tag by running `./build.sh <image-name> <version> --tag` (can also be
+   combined with `--push` to push the image again).
 
 
 ## Using Images Locally
