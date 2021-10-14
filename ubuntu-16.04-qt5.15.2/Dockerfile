@@ -18,7 +18,6 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     libc++abi-dev \
     libglu1-mesa-dev \
     make \
-    openssl \
     python \
     software-properties-common \
     wget \
@@ -26,6 +25,26 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     zlib1g \
     zlib1g-dev \
   && rm -rf /var/lib/apt/lists/*
+
+# Remove DST root certificate since it is not compatible with OpenSSL 1.0. This
+# is only needed for building the Docker image, afterwards we will have a newer
+# OpenSSL library.
+# See https://medium.com/geekculture/will-you-be-impacted-by-letsencrypt-dst-root-ca-x3-expiration-d54a018df257
+RUN sed -i 's/mozilla\/DST_Root_CA_X3.crt/!mozilla\/DST_Root_CA_X3.crt/g' \
+  /etc/ca-certificates.conf && update-ca-certificates
+
+# Install OpenSSL 1.1 since Qt 5.15 does not work with OpenSSL 1.0
+ARG OPENSSL_VERSION="1.1.1l"
+RUN wget -c "https://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz" -O /tmp.tar.gz \
+  && tar -zxf /tmp.tar.gz \
+  && cd "./openssl-$OPENSSL_VERSION" \
+  && ./config --prefix=/usr --openssldir=/etc/ssl '-Wl,--enable-new-dtags,-rpath,$(LIBRPATH)' \
+  && make -s -j8 \
+  && make install > /dev/null \
+  && ldconfig \
+  && cd .. \
+  && rm -rf "./openssl-$OPENSSL_VERSION" \
+  && rm /tmp.tar.gz
 
 # Install latest Qt
 ARG QT_VERSION="515"
