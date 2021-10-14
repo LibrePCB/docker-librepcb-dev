@@ -16,9 +16,29 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     graphviz \
     libc++-dev \
     libc++abi-dev \
+    libcups2 \
+    libegl1-mesa \
     libffi-dev \
+    libfontconfig1 \
+    libfreetype6 \
     libglu1-mesa-dev \
+    libodbc1 \
+    libpq5 \
+    libxcb-glx0 \
+    libxcb-icccm4 \
+    libxcb-icccm4 \
+    libxcb-image0 \
+    libxcb-keysyms1 \
+    libxcb-randr0 \
+    libxcb-render-util0 \
+    libxcb-shape0 \
+    libxcb-shm0 \
+    libxcb-xfixes0 \
+    libxcb-xinerama0 \
+    libxcb1 \
+    libxkbcommon-x11-0 \
     make \
+    p7zip-full \
     software-properties-common \
     wget \
     xvfb \
@@ -65,31 +85,60 @@ RUN wget "https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSI
   && python get-pip.py \
   && rm get-pip.py
 
-# Install latest Qt
-ARG QT_VERSION="515"
-ARG QT_PPA="ppa:beineri/opt-qt-5.15.2-xenial"
-RUN add-apt-repository "$QT_PPA" -y \
-  && apt-get update -q \
-  && apt-get install -qq "qt${QT_VERSION}base" "qt${QT_VERSION}tools" \
-                         "qt${QT_VERSION}svg" "qt${QT_VERSION}translations" \
-  && rm -rf /var/lib/apt/lists/*
-ENV QTDIR="/opt/qt$QT_VERSION" \
-    PATH="/opt/qt$QT_VERSION/bin:$PATH" \
-    LD_LIBRARY_PATH="/opt/qt$QT_VERSION/lib/x86_64-linux-gnu:/opt/qt$QT_VERSION/lib:$LD_LIBRARY_PATH"
+# Install Qt Tools
+ARG QT_VERSION="5.15.2"
+ARG QT_URL="https://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt5_5152/qt.qt5.5152.gcc_64/5.15.2-0-202011130601"
+ENV QTDIR="/opt/qt/$QT_VERSION/gcc_64" \
+    PATH="/opt/qt/$QT_VERSION/gcc_64/bin:$PATH" \
+    LD_LIBRARY_PATH="/opt/qt/$QT_VERSION/lib:$LD_LIBRARY_PATH" \
+    PKG_CONFIG_PATH="/opt/qt/$QT_VERSION/lib/pkgconfig:$PKG_CONFIG_PATH"
+RUN mkdir /opt/qt \
+  && wget -c "${QT_URL}qttools-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64.7z" -O /tmp.7z \
+  && 7za x /tmp.7z -o/opt/qt \
+  && rm /tmp.7z
+
+# Install Qt Base
+ARG QT_PRI="/opt/qt/$QT_VERSION/gcc_64/mkspecs/qconfig.pri"
+RUN wget -c "${QT_URL}qtbase-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64.7z" -O /tmp.7z \
+  && 7za x /tmp.7z -o/opt/qt \
+  && sed -i 's/Enterprise/OpenSource/' "$QT_PRI" \
+  && sed -i 's/licheck64//' "$QT_PRI" \
+  && rm /tmp.7z
+
+# Install Qt SVG
+RUN wget -c "${QT_URL}qtsvg-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64.7z" -O /tmp.7z \
+  && 7za x /tmp.7z -o/opt/qt \
+  && rm /tmp.7z
+
+# Install Qt Declarative
+RUN wget -c "${QT_URL}qtdeclarative-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64.7z" -O /tmp.7z \
+  && 7za x /tmp.7z -o/opt/qt \
+  && rm /tmp.7z
+
+# Install Qt Translations
+RUN wget -c "${QT_URL}qttranslations-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64.7z" -O /tmp.7z \
+  && 7za x /tmp.7z -o/opt/qt \
+  && rm /tmp.7z
+
+# Install libicu
+RUN wget -c "${QT_URL}icu-linux-Rhel7.2-x64.7z" -O /tmp.7z \
+  && 7za x /tmp.7z -o/opt/qt \
+  && rm /tmp.7z
 
 # Install Qt Installer Framework
 ARG QTIFW_VERSION="3.2.2"
 ARG QTIFW_URL_BASE="https://download.qt.io/official_releases/qt-installer-framework/$QTIFW_VERSION"
 COPY qtifw-installer-noninteractive.qs /qtifw-installer-noninteractive.qs
-RUN wget -cq "$QTIFW_URL_BASE/QtInstallerFramework-linux-x64.run" -O ./QtIFW.run \
-  && chmod a+x ./QtIFW.run \
-  && ./QtIFW.run --script /qtifw-installer-noninteractive.qs --no-force-installations --platform minimal -v \
-  && mv -fv ~/Qt/QtIFW-$QTIFW_VERSION/bin/* /usr/local/bin/
+RUN wget -cq "$QTIFW_URL_BASE/QtInstallerFramework-linux-x64.run" -O /QtIFW.run \
+  && chmod a+x /QtIFW.run \
+  && /QtIFW.run --script /qtifw-installer-noninteractive.qs --no-force-installations --platform minimal -v \
+  && mv -fv ~/Qt/QtIFW-$QTIFW_VERSION/bin/* /usr/local/bin/ \
+  && rm /QtIFW.run
 
 # Install linuxdeployqt
 ARG LINUXDEPLOYQT_VERSION="6"
 ARG LINUXDEPLOYQT_URL="https://github.com/probonopd/linuxdeployqt/releases/download/$LINUXDEPLOYQT_VERSION/linuxdeployqt-$LINUXDEPLOYQT_VERSION-x86_64.AppImage"
-RUN wget -cq "$LINUXDEPLOYQT_URL" -O /linuxdeployqt.AppImage \
+RUN wget -c "$LINUXDEPLOYQT_URL" -O /linuxdeployqt.AppImage \
   && chmod a+x /linuxdeployqt.AppImage \
   && /linuxdeployqt.AppImage --appimage-extract \
   && chmod -R 755 /squashfs-root \
