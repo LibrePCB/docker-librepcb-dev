@@ -16,9 +16,9 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     graphviz \
     libc++-dev \
     libc++abi-dev \
+    libffi-dev \
     libglu1-mesa-dev \
     make \
-    python \
     software-properties-common \
     wget \
     xvfb \
@@ -45,6 +45,25 @@ RUN wget -c "https://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz" -O 
   && cd .. \
   && rm -rf "./openssl-$OPENSSL_VERSION" \
   && rm /tmp.tar.gz
+
+# Install Python & pip
+# Note: Actually Python 3.5 from the official Ubuntu repositories is
+# sufficient for us, but having a more recent version simplifies dependency
+# management since then we can drop support for Python 3.5.
+ARG PYTHON_VERSION="3.10.0"
+RUN wget "https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tgz" \
+  && tar xzvf "./Python-$PYTHON_VERSION.tgz" \
+  && cd "./Python-$PYTHON_VERSION" \
+  && ./configure \
+  && make -j8 \
+  && make install \
+  && cd .. \
+  && rm -rf "./Python-$PYTHON_VERSION" \
+  && rm "./Python-$PYTHON_VERSION.tgz" \
+  && update-alternatives --install /usr/bin/python python /usr/local/bin/python3.10 100 \
+  && curl "https://bootstrap.pypa.io/pip/get-pip.py" -o get-pip.py \
+  && python get-pip.py \
+  && rm get-pip.py
 
 # Install latest Qt
 ARG QT_VERSION="515"
@@ -76,15 +95,6 @@ RUN wget -cq "$LINUXDEPLOYQT_URL" -O /linuxdeployqt.AppImage \
   && chmod -R 755 /squashfs-root \
   && ln -s /squashfs-root/AppRun /usr/local/bin/linuxdeployqt \
   && rm /linuxdeployqt.AppImage
-
-# Install PIP (the version from APT is not sufficient)
-RUN curl "https://bootstrap.pypa.io/2.7/get-pip.py" -o get-pip.py \
-  && python get-pip.py
-
-# Install Python packages
-RUN pip install \
-  "future==0.17.1" \
-  "flake8==3.7.7"
 
 # LibrePCB's unittests expect that there is a USERNAME environment variable
 ENV USERNAME="root"
