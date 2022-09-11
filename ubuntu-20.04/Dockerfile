@@ -21,6 +21,8 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     libdxflib3 \
     libdxflib-dev \
     libglu1-mesa-dev \
+    libgmock-dev \
+    libgtest-dev \
     libmuparser2v5 \
     libmuparser-dev \
     libqt5opengl5 \
