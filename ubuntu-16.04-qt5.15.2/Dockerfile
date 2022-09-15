@@ -146,8 +146,22 @@ RUN wget -c "$LINUXDEPLOYQT_URL" -O /linuxdeployqt.AppImage \
   && chmod a+x /linuxdeployqt.AppImage \
   && /linuxdeployqt.AppImage --appimage-extract \
   && chmod -R 755 /squashfs-root \
-  && ln -s /squashfs-root/AppRun /usr/local/bin/linuxdeployqt \
+  && mv /squashfs-root /opt/linuxdeployqt \
+  && ln -s /opt/linuxdeployqt/AppRun /usr/local/bin/linuxdeployqt \
   && rm /linuxdeployqt.AppImage
+
+# Install beta appimagetool which should not depend on any system libraries
+# anymore, and should therefore run on Ubuntu 22.04 which doesn't provide
+# libfuse2 anymore (see https://github.com/LibrePCB/LibrePCB/issues/980).
+# However, since there are no official releases yet, the binary is downloaded
+# from the nightly build and added to the repository. Download URL:
+# https://github.com/probonopd/go-appimage/releases/download/continuous/appimagetool-718-x86_64.AppImage
+COPY appimagetool-x86_64.AppImage /appimagetool-x86_64.AppImage
+RUN /appimagetool-x86_64.AppImage --appimage-extract \
+  && chmod -R 755 /squashfs-root \
+  && mv /squashfs-root /opt/appimagetool \
+  && ln -s /opt/appimagetool/AppRun /usr/local/bin/appimagetool \
+  && rm /appimagetool-x86_64.AppImage
 
 # LibrePCB's unittests expect that there is a USERNAME environment variable
 ENV USERNAME="root"
