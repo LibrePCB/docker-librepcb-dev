@@ -90,12 +90,16 @@ ARG QT_VERSION="5.15.2"
 ARG QT_URL="https://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt5_5152/qt.qt5.5152.gcc_64/5.15.2-0-202011130601"
 ENV QTDIR="/opt/qt/$QT_VERSION/gcc_64" \
     PATH="/opt/qt/$QT_VERSION/gcc_64/bin:$PATH" \
-    LD_LIBRARY_PATH="/opt/qt/$QT_VERSION/lib:$LD_LIBRARY_PATH" \
-    PKG_CONFIG_PATH="/opt/qt/$QT_VERSION/lib/pkgconfig:$PKG_CONFIG_PATH"
+    LD_LIBRARY_PATH="/opt/qt/$QT_VERSION/gcc_64/lib:$LD_LIBRARY_PATH" \
+    PKG_CONFIG_PATH="/opt/qt/$QT_VERSION/gcc_64/lib/pkgconfig:$PKG_CONFIG_PATH"
 RUN mkdir /opt/qt \
   && wget -c "${QT_URL}qttools-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64.7z" -O /tmp.7z \
   && 7za x /tmp.7z -o/opt/qt \
-  && rm /tmp.7z
+  && rm /tmp.7z \
+  # The AppImage deployment tools might read some paths from the Qt libraries,
+  # but they are wrong so let's create a symlink to make them working anyway:
+  && mkdir -p "/home/qt/work" \
+  && ln -s "/opt/qt/$QT_VERSION/gcc_64" "/home/qt/work/install"
 
 # Install Qt Base
 ARG QT_PRI="/opt/qt/$QT_VERSION/gcc_64/mkspecs/qconfig.pri"
