@@ -21,6 +21,8 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     libdxflib3 \
     libdxflib-dev \
     libglu1-mesa-dev \
+    libgmock-dev \
+    libgtest-dev \
     libmuparser2v5 \
     libmuparser-dev \
     libqt5opengl5 \
@@ -60,6 +62,12 @@ RUN pip install \
 
 # Add missing pkg-config files
 ADD quazip.pc /usr/lib/pkgconfig/
+
+# Fix broken GTest/GMock pkg-config files, see
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=958099
+RUN sed -i -e 's/prefix=.*/prefix=\/usr/g' \
+  /usr/lib/x86_64-linux-gnu/pkgconfig/gtest*.pc \
+  /usr/lib/x86_64-linux-gnu/pkgconfig/gmock*.pc
 
 # LibrePCB's unittests expect that there is a USERNAME environment variable
 ENV USERNAME="root"
