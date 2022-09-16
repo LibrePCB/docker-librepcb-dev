@@ -90,12 +90,16 @@ ARG QT_VERSION="5.15.2"
 ARG QT_URL="https://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt5_5152/qt.qt5.5152.gcc_64/5.15.2-0-202011130601"
 ENV QTDIR="/opt/qt/$QT_VERSION/gcc_64" \
     PATH="/opt/qt/$QT_VERSION/gcc_64/bin:$PATH" \
-    LD_LIBRARY_PATH="/opt/qt/$QT_VERSION/lib:$LD_LIBRARY_PATH" \
-    PKG_CONFIG_PATH="/opt/qt/$QT_VERSION/lib/pkgconfig:$PKG_CONFIG_PATH"
+    LD_LIBRARY_PATH="/opt/qt/$QT_VERSION/gcc_64/lib:$LD_LIBRARY_PATH" \
+    PKG_CONFIG_PATH="/opt/qt/$QT_VERSION/gcc_64/lib/pkgconfig:$PKG_CONFIG_PATH"
 RUN mkdir /opt/qt \
   && wget -c "${QT_URL}qttools-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64.7z" -O /tmp.7z \
   && 7za x /tmp.7z -o/opt/qt \
-  && rm /tmp.7z
+  && rm /tmp.7z \
+  # The AppImage deployment tools might read some paths from the Qt libraries,
+  # but they are wrong so let's create a symlink to make them working anyway:
+  && mkdir -p "/home/qt/work" \
+  && ln -s "/opt/qt/$QT_VERSION/gcc_64" "/home/qt/work/install"
 
 # Install Qt Base
 ARG QT_PRI="/opt/qt/$QT_VERSION/gcc_64/mkspecs/qconfig.pri"
@@ -142,8 +146,22 @@ RUN wget -c "$LINUXDEPLOYQT_URL" -O /linuxdeployqt.AppImage \
   && chmod a+x /linuxdeployqt.AppImage \
   && /linuxdeployqt.AppImage --appimage-extract \
   && chmod -R 755 /squashfs-root \
-  && ln -s /squashfs-root/AppRun /usr/local/bin/linuxdeployqt \
+  && mv /squashfs-root /opt/linuxdeployqt \
+  && ln -s /opt/linuxdeployqt/AppRun /usr/local/bin/linuxdeployqt \
   && rm /linuxdeployqt.AppImage
+
+# Install beta appimagetool which should not depend on any system libraries
+# anymore, and should therefore run on Ubuntu 22.04 which doesn't provide
+# libfuse2 anymore (see https://github.com/LibrePCB/LibrePCB/issues/980).
+# However, since there are no official releases yet, the binary is downloaded
+# from the nightly build and added to the repository. Download URL:
+# https://github.com/probonopd/go-appimage/releases/download/continuous/appimagetool-718-x86_64.AppImage
+COPY appimagetool-x86_64.AppImage /appimagetool-x86_64.AppImage
+RUN /appimagetool-x86_64.AppImage --appimage-extract \
+  && chmod -R 755 /squashfs-root \
+  && mv /squashfs-root /opt/appimagetool \
+  && ln -s /opt/appimagetool/AppRun /usr/local/bin/appimagetool \
+  && rm /appimagetool-x86_64.AppImage
 
 # LibrePCB's unittests expect that there is a USERNAME environment variable
 ENV USERNAME="root"
