@@ -87,6 +87,16 @@ Windows.
 
 Same purpose as `windowsservercore-ltsc2019-qt5.15.0-32bit`, but with Qt 5.15.2.
 
+### `webtools`
+
+An image providing all the web tools we need for
+[`librepcb-doc`](https://github.com/LibrePCB/librepcb-doc) and
+[`librepcb-website`](https://github.com/LibrePCB/librepcb-website):
+
+* [Antora](https://antora.org/)
+* [Asciidoctor](https://asciidoctor.org/)
+* [Hugo](https://gohugo.io)
+
 
 ## Updating Images
 
