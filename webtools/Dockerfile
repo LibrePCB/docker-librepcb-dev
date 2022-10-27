@@ -9,6 +9,7 @@ RUN apk add --no-cache \
   openssl \
   pngcrush \
   python3 \
+  py3-pillow \
   ruby
 
 # Install the Antora PDF extension
