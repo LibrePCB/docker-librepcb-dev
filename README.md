@@ -89,6 +89,12 @@ In addition, this image contains necessary tools for dynamic linking of
 LibrePCB (pkg-config, libdxflib, libmuparser, libquazip5, libpolyclipping,
 googletest).
 
+### `ubuntu-22.04`
+
+Based on Ubuntu 22.04, containing Qt from the official Ubuntu package
+repository. This image is intended to check if LibrePCB compiles on a standard
+Ubuntu 18.04.
+
 ### `windowsservercore-ltsc2019-qt5.15.0-32bit`
 
 Based on Windows Server Core LTSC2019 with Qt5.15.0 and MinGW 8.1 32-bit. This
