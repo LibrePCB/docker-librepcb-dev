@@ -55,6 +55,20 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 100
 RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 100
 
+# Install latest OpenSSL to avoid possible issues if servers some day stop
+# working with an old OpenSSL library (as already happened in the past).
+ARG OPENSSL_VERSION="1.1.1t"
+RUN wget -c "https://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz" -O /tmp.tar.gz \
+  && tar -zxf /tmp.tar.gz \
+  && cd "./openssl-$OPENSSL_VERSION" \
+  && ./config --prefix=/usr --openssldir=/etc/ssl '-Wl,--enable-new-dtags,-rpath,$(LIBRPATH)' \
+  && make -s -j8 \
+  && make install > /dev/null \
+  && ldconfig \
+  && cd .. \
+  && rm -rf "./openssl-$OPENSSL_VERSION" \
+  && rm /tmp.tar.gz
+
 # Install Qt Tools
 ARG QT_VERSION="5.15.2"
 ARG QT_URL="https://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt5_5152/qt.qt5.5152.gcc_64/5.15.2-0-202011130601"
