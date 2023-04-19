@@ -76,5 +76,4 @@ RUN powershell -Command Invoke-WebRequest $env:QT_IFW_URL -OutFile 'C:/tmp.exe' 
 ARG OPENSSL_URL="https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_openssl_x86/qt.tools.openssl.win_x86/1.1.1-17openssl_1.1.1q_prebuild_x86.7z"
 RUN powershell -Command Invoke-WebRequest $env:OPENSSL_URL -OutFile 'C:/tmp.7z' -UseBasicParsing ; \
   && 7z x C:/tmp.7z -oC:/Qt -bsp1 \
-  && setx PATH "%PATH%;C:\Qt\Tools\mingw810_32\bin" \
   && del C:\tmp.7z
