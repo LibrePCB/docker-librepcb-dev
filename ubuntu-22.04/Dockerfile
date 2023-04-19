@@ -38,5 +38,8 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     zlib1g-dev \
   && rm -rf /var/lib/apt/lists/*
 
+# Set Python3 as default Python version
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 100
+
 # LibrePCB's unittests expect that there is a USERNAME environment variable
 ENV USERNAME="root"
