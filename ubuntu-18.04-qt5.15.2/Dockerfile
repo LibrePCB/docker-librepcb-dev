@@ -69,6 +69,37 @@ RUN wget -c "https://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz" -O 
   && rm -rf "./openssl-$OPENSSL_VERSION" \
   && rm /tmp.tar.gz
 
+# Install OpenCascade
+ARG OCC_VERSION="7_7_0"
+ARG OCC_URL="https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V$OCC_VERSION.tar.gz"
+RUN wget -c "${OCC_URL}" -O /tmp.tar.gz \
+  && tar -xzf /tmp.tar.gz -C /opt \
+  && rm /tmp.tar.gz \
+  && cd "/opt/OCCT-$OCC_VERSION" \
+  && cmake . -G "Ninja" \
+       -DCMAKE_BUILD_TYPE=Release \
+       -DINSTALL_DIR=/usr/local \
+       -DBUILD_LIBRARY_TYPE=Shared \
+       -DBUILD_MODULE_ApplicationFramework=0 \
+       -DBUILD_MODULE_DataExchange=1 \
+       -DBUILD_MODULE_Draw=0 \
+       -DBUILD_MODULE_FoundationClasses=0 \
+       -DBUILD_MODULE_ModelingAlgorithms=0 \
+       -DBUILD_MODULE_ModelingData=0 \
+       -DBUILD_MODULE_Visualization=0 \
+       -DUSE_DRACO=0 \
+       -DUSE_FREEIMAGE=0 \
+       -DUSE_FREETYPE=0 \
+       -DUSE_GLES2=0 \
+       -DUSE_OPENGL=0 \
+       -DUSE_OPENVR=0 \
+       -DUSE_RAPIDJSON=0 \
+       -DUSE_TBB=0 \
+       -DUSE_TK=0 \
+       -DUSE_VTK=0 \
+  && ninja && ninja install \
+  && cd / && rm -rf "/opt/OCCT-$OCC_VERSION"
+
 # Install Qt Tools
 ARG QT_VERSION="5.15.2"
 ARG QT_URL="https://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt5_5152/qt.qt5.5152.gcc_64/5.15.2-0-202011130601"

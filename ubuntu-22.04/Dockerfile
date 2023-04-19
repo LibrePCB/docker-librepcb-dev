@@ -17,6 +17,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     libc++-dev \
     libc++abi-dev \
     libglu1-mesa-dev \
+    liboce-*-dev \
     libqt5opengl5 \
     libqt5opengl5-dev \
     libqt5svg5-dev \
