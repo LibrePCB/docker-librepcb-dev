@@ -10,8 +10,9 @@ RUN powershell -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command \
 ENV PYTHONIOENCODING "UTF-8"
 RUN choco install -y 7zip ccache vcredist2017 \
   && choco install -y git --params "/GitAndUnixToolsOnPath /NoAutoCrlf" \
-  && choco install --forcex86 -y python3 --version 3.10.0 \
-  && choco install -y cmake --version 3.21.3 --installargs "ADD_CMAKE_TO_PATH=System"
+  && choco install --forcex86 -y python3 --version 3.11.3 \
+  && choco install -y cmake --version 3.26.3 --installargs "ADD_CMAKE_TO_PATH=System" \
+  && choco install -y ninja --version 1.11.1
 
 # Install MinGW
 ARG MINGW_URL="https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_mingw/qt.tools.win32_mingw810/8.1.0-1-202004170606i686-8.1.0-release-posix-dwarf-rt_v6-rev0.7z"
@@ -19,12 +20,6 @@ RUN powershell -Command Invoke-WebRequest $env:MINGW_URL -OutFile 'C:/tmp.7z' -U
   && 7z x C:/tmp.7z -oC:/Qt -bsp1 \
   && setx PATH "%PATH%;C:\Qt\Tools\mingw810_32\bin" \
   && del C:\tmp.7z
-
-# Install OpenSSL
-ARG OPENSSL_URL="http://slproweb.com/download/Win32OpenSSL_Light-1_1_1L.exe"
-RUN powershell -Command Invoke-WebRequest $env:OPENSSL_URL -OutFile 'C:/tmp.exe' -UseBasicParsing ; \
-  && C:/tmp.exe /silent /verysilent /suppressmsgboxes /sp- /dir=C:/OpenSSL-Win32 \
-  && del C:\tmp.exe
 
 # Install Qt whatever DLLs
 ARG QT_VERSION="5.15.2"
@@ -76,3 +71,10 @@ RUN powershell -Command Invoke-WebRequest $env:QT_IFW_URL -OutFile 'C:/tmp.exe' 
   && C:/tmp.exe --script C:/qtifw-installer-noninteractive.qs --no-force-installations -v \
   && setx PATH "%PATH%;C:\Qt\QtIFW-%QT_IFW_VERSION%\bin" \
   && del C:\tmp.exe
+
+# Install OpenSSL
+ARG OPENSSL_URL="https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_openssl_x86/qt.tools.openssl.win_x86/1.1.1-17openssl_1.1.1q_prebuild_x86.7z"
+RUN powershell -Command Invoke-WebRequest $env:OPENSSL_URL -OutFile 'C:/tmp.7z' -UseBasicParsing ; \
+  && 7z x C:/tmp.7z -oC:/Qt -bsp1 \
+  && setx PATH "%PATH%;C:\Qt\Tools\mingw810_32\bin" \
+  && del C:\tmp.7z
