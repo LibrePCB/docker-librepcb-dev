@@ -61,10 +61,12 @@ Ubuntu 18.04.
 ### `ubuntu-18.04-qt5.15.2`
 
 Based on Ubuntu 18.04, containing Qt 5.15.2 from
-[download.qt.io](https://download.qt.io). This image is intended for
-deployment of official binary releases of LibrePCB, which should be linked
-against an old version of `glibc` (for maximum compatibility) but still using
-a recent Qt version (to get the latest features/bugfixes of Qt).
+[download.qt.io](https://download.qt.io) and OpenCascade OCCT from
+[github/Open-Cascade-SAS/OCCT](https://github.com/Open-Cascade-SAS/OCCT).
+This image is intended for deployment of official binary releases of LibrePCB,
+which should be linked against an old version of `glibc` (for maximum
+compatibility) but still using a recent Qt version (to get the latest
+features/bugfixes of Qt).
 
 In addition, this image contains
 [`linuxdeployqt`](https://github.com/probonopd/linuxdeployqt) to build the
@@ -91,9 +93,9 @@ googletest).
 
 ### `ubuntu-22.04`
 
-Based on Ubuntu 22.04, containing Qt from the official Ubuntu package
-repository. This image is intended to check if LibrePCB compiles on a standard
-Ubuntu 18.04.
+Based on Ubuntu 22.04, containing Qt and OpenCascade OCE from the official
+Ubuntu package repository. This image is intended to check if LibrePCB
+compiles on a standard Ubuntu 18.04.
 
 ### `windowsservercore-ltsc2019-qt5.15.0-32bit`
 
@@ -103,7 +105,8 @@ Windows.
 
 ### `windowsservercore-ltsc2019-qt5.15.2-32bit`
 
-Same purpose as `windowsservercore-ltsc2019-qt5.15.0-32bit`, but with Qt 5.15.2.
+Same purpose as `windowsservercore-ltsc2019-qt5.15.0-32bit`, but with Qt 5.15.2
+and including OpenCascade OCCT 7.7.0.
 
 ### `webtools`
 
