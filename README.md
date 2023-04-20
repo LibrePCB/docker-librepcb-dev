@@ -12,52 +12,6 @@ The built images are hosted at
 
 ## Available Tags
 
-### `debian-8`
-
-Based on Debian 8 (Jessie), containing Qt from the official Debian package
-repository. This image is intended to check if LibrePCB compiles on a standard
-Debian 8.
-
-### `ubuntu-14.04`
-
-Based on Ubuntu 14.04, containing Qt from the official Ubuntu package
-repository. This image is intended to check if LibrePCB compiles on a standard
-Ubuntu 14.04.
-
-### `ubuntu-16.04`
-
-Based on Ubuntu 16.04, containing Qt from the official Ubuntu package
-repository. This image is intended to check if LibrePCB compiles on a standard
-Ubuntu 16.04.
-
-### `ubuntu-16.04-qt5.12.3`
-
-Based on Ubuntu 16.04, containing Qt 5.12.3 from
-[this PPA](https://launchpad.net/~beineri). This image is intended for
-deployment of official binary releases of LibrePCB (installer and AppImage),
-which should be linked against an old version of `glibc` (for maximum
-compatibility) but still using a recent Qt version (to get the latest features
-of Qt).
-
-In addition, this image contains
-[`linuxdeployqt`](https://github.com/probonopd/linuxdeployqt) and the
-[Qt Installer Framework](https://doc.qt.io/qtinstallerframework/) to build the
-official binary releases.
-
-### `ubuntu-16.04-qt5.14.2`
-
-Same purpose as `ubuntu-16.04-qt5.12.3`, but with Qt 5.14.2.
-
-### `ubuntu-16.04-qt5.15.2`
-
-Same purpose as `ubuntu-16.04-qt5.12.3`, but with Qt 5.15.2.
-
-### `ubuntu-18.04`
-
-Based on Ubuntu 18.04, containing Qt from the official Ubuntu package
-repository. This image is intended to check if LibrePCB compiles on a standard
-Ubuntu 18.04.
-
 ### `ubuntu-18.04-qt5.15.2`
 
 Based on Ubuntu 18.04, containing Qt 5.15.2 from
@@ -71,15 +25,6 @@ features/bugfixes of Qt).
 In addition, this image contains
 [`linuxdeployqt`](https://github.com/probonopd/linuxdeployqt) to build the
 AppImage.
-
-### `ubuntu-19.04`
-
-Based on Ubuntu 19.04, containing Qt from the official Ubuntu package
-repository. This image is intended to check if LibrePCB compiles on a standard
-Ubuntu 19.04.
-
-In addition, this image contains GCC 9 to check if LibrePCB can be built with
-a recent compiler.
 
 ### `ubuntu-20.04`
 
@@ -97,16 +42,11 @@ Based on Ubuntu 22.04, containing Qt and OpenCascade OCE from the official
 Ubuntu package repository. This image is intended to check if LibrePCB
 compiles on a standard Ubuntu 18.04.
 
-### `windowsservercore-ltsc2019-qt5.15.0-32bit`
-
-Based on Windows Server Core LTSC2019 with Qt5.15.0 and MinGW 8.1 32-bit. This
-image is intended for deployment of official binary releases of LibrePCB for
-Windows.
-
 ### `windowsservercore-ltsc2019-qt5.15.2-32bit`
 
-Same purpose as `windowsservercore-ltsc2019-qt5.15.0-32bit`, but with Qt 5.15.2
-and including OpenCascade OCCT 7.7.0.
+Based on Windows Server Core LTSC2019 with Qt5.15.2, MinGW 8.1 32-bit
+and OpenCascade OCCT 7.7.0. This image is intended for deployment of official
+binary releases of LibrePCB for Windows.
 
 ### `webtools`
 
