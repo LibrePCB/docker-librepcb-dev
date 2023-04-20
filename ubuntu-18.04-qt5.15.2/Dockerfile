@@ -78,7 +78,7 @@ RUN wget -c "${OCC_URL}" -O /tmp.tar.gz \
   && cd "/opt/OCCT-$OCC_VERSION" \
   && cmake . -G "Ninja" \
        -DCMAKE_BUILD_TYPE=Release \
-       -DINSTALL_DIR=/usr/local \
+       -DINSTALL_DIR=/usr \
        -DBUILD_LIBRARY_TYPE=Shared \
        -DBUILD_MODULE_ApplicationFramework=0 \
        -DBUILD_MODULE_DataExchange=1 \
