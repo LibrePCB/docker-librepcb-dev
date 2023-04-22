@@ -1,5 +1,8 @@
 FROM mcr.microsoft.com/windows/servercore:ltsc2019
 
+# Add OpenGL DLLs from a Windows desktop to allow running unit tests within the container
+ADD *.dll C:/Windows/SysWOW64/
+
 # Install Chocolatey
 RUN powershell -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command \
   "[System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" \
