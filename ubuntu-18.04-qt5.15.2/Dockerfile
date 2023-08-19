@@ -134,6 +134,11 @@ RUN wget -c "${QT_URL}qtdeclarative-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64.7z"
   && 7za x /tmp.7z -o/opt/qt \
   && rm /tmp.7z
 
+# Install Qt Quick Controls 2
+RUN wget -c "${QT_URL}qtquickcontrols2-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64.7z" -O /tmp.7z \
+  && 7za x /tmp.7z -o/opt/qt \
+  && rm /tmp.7z
+
 # Install Qt Translations
 RUN wget -c "${QT_URL}qttranslations-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64.7z" -O /tmp.7z \
   && 7za x /tmp.7z -o/opt/qt \
