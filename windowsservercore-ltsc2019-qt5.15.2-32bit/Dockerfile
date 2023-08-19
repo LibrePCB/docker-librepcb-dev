@@ -95,6 +95,12 @@ RUN powershell -Command Invoke-WebRequest $env:QT_DECLARATIVE_URL -OutFile 'C:/t
   && 7z x C:/tmp.7z -oC:/Qt -bsp1 \
   && del C:\tmp.7z
 
+# Install Qt Quick Controls 2
+ARG QT_QUICKCONTROLS2_URL="${QT_URL}qtquickcontrols2-Windows-Windows_7-Mingw-Windows-Windows_7-X86.7z"
+RUN powershell -Command Invoke-WebRequest $env:QT_QUICKCONTROLS2_URL -OutFile 'C:/tmp.7z' -UseBasicParsing ; \
+  && 7z x C:/tmp.7z -oC:/Qt -bsp1 \
+  && del C:\tmp.7z
+
 # Install Qt Translations
 ARG QT_TRANSLATIONS_URL="${QT_URL}qttranslations-Windows-Windows_7-Mingw-Windows-Windows_7-X86.7z"
 RUN powershell -Command Invoke-WebRequest $env:QT_TRANSLATIONS_URL -OutFile 'C:/tmp.7z' -UseBasicParsing ; \
