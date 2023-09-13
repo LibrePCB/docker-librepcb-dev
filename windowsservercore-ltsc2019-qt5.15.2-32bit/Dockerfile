@@ -25,7 +25,7 @@ RUN powershell -Command Invoke-WebRequest $env:MINGW_URL -OutFile 'C:/tmp.7z' -U
   && del C:\tmp.7z
 
 # Install OpenCascade
-ARG OCC_VERSION="7_7_0"
+ARG OCC_VERSION="7_7_2"
 ARG OCC_URL="https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V$OCC_VERSION.zip"
 RUN powershell -Command Invoke-WebRequest $env:OCC_URL -OutFile 'C:/tmp.zip' -UseBasicParsing ; \
   && 7z x C:/tmp.zip -oC:/ -bsp1 \

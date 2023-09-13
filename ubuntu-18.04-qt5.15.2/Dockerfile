@@ -70,7 +70,7 @@ RUN wget -c "https://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz" -O 
   && rm /tmp.tar.gz
 
 # Install OpenCascade
-ARG OCC_VERSION="7_7_0"
+ARG OCC_VERSION="7_7_2"
 ARG OCC_URL="https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V$OCC_VERSION.tar.gz"
 RUN wget -c "${OCC_URL}" -O /tmp.tar.gz \
   && tar -xzf /tmp.tar.gz -C /opt \
