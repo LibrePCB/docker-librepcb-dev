@@ -34,6 +34,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     libquazip5-1 \
     libquazip5-dev \
     make \
+    ninja-build \
     openssl \
     pkg-config \
     python3 \
