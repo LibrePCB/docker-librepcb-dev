@@ -122,3 +122,6 @@ ADD OpenSSL.tar.bz2 C:/Qt/Tools
 
 # Allow installing pip packages system-wide since there's no risk in a container
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
+
+# Put Python user site in PATH to allow installing packages with --user
+RUN FOR /F %i IN ('python -m site --user-base') DO setx PATH "%PATH%;%i\bin"
