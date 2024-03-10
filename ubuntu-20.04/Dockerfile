@@ -42,6 +42,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     python3-setuptools \
     python3-wheel \
     qt5-default \
+    qt5-image-formats-plugins \
     qtdeclarative5-dev \
     qttools5-dev \
     qttools5-dev-tools \

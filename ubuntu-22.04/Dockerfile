@@ -29,6 +29,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     python3-pip \
     python3-setuptools \
     python3-wheel \
+    qt5-image-formats-plugins \
     qtbase5-dev \
     qtdeclarative5-dev \
     qtquickcontrols2-5-dev \

@@ -107,6 +107,12 @@ RUN powershell -Command Invoke-WebRequest $env:QT_TRANSLATIONS_URL -OutFile 'C:/
   && 7z x C:/tmp.7z -oC:/Qt -bsp1 \
   && del C:\tmp.7z
 
+# Install Qt Image Formats Plugin
+ARG QT_IMAGEFORMATS_URL="${QT_URL}qtimageformats-Windows-Windows_7-Mingw-Windows-Windows_7-X86.7z"
+RUN powershell -Command Invoke-WebRequest $env:QT_IMAGEFORMATS_URL -OutFile 'C:/tmp.7z' -UseBasicParsing ; \
+  && 7z x C:/tmp.7z -oC:/Qt -bsp1 \
+  && del C:\tmp.7z
+
 # Install Qt Installer Framework
 ADD QtIFW-3.2.2.tar.bz2 C:/Qt
 RUN setx PATH "%PATH%;C:\Qt\QtIFW-3.2.2\bin"

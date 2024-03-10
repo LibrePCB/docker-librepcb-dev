@@ -144,6 +144,11 @@ RUN wget -c "${QT_URL}qttranslations-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64.7z
   && 7za x /tmp.7z -o/opt/qt \
   && rm /tmp.7z
 
+# Install Qt Image Formats Plugin
+RUN wget -c "${QT_URL}qtimageformats-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64.7z" -O /tmp.7z \
+  && 7za x /tmp.7z -o/opt/qt \
+  && rm /tmp.7z
+
 # Install libicu
 RUN wget -c "${QT_URL}icu-linux-Rhel7.2-x64.7z" -O /tmp.7z \
   && 7za x /tmp.7z -o/opt/qt \
