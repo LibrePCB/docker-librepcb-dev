@@ -172,5 +172,8 @@ RUN /appimagetool-x86_64.AppImage --appimage-extract \
   && ln -s /opt/appimagetool/AppRun /usr/local/bin/appimagetool \
   && rm /appimagetool-x86_64.AppImage
 
+# Allow installing pip packages system-wide since there's no risk in a container
+ENV PIP_BREAK_SYSTEM_PACKAGES=1
+
 # LibrePCB's unittests expect that there is a USERNAME environment variable
 ENV USERNAME="root"

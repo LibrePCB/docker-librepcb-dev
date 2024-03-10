@@ -55,6 +55,9 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 100
 RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 100
 
+# Allow installing pip packages system-wide since there's no risk in a container
+ENV PIP_BREAK_SYSTEM_PACKAGES=1
+
 # Install Python packages
 RUN pip install \
   "future==0.17.1" \
