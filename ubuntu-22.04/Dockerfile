@@ -42,5 +42,8 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
 # Set Python3 as default Python version
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 100
 
+# Allow installing pip packages system-wide since there's no risk in a container
+ENV PIP_BREAK_SYSTEM_PACKAGES=1
+
 # LibrePCB's unittests expect that there is a USERNAME environment variable
 ENV USERNAME="root"

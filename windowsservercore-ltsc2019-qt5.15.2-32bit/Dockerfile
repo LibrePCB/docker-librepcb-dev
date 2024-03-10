@@ -121,3 +121,6 @@ ARG OPENSSL_URL="https://download.qt.io/online/qtsdkrepository/windows_x86/deskt
 RUN powershell -Command Invoke-WebRequest $env:OPENSSL_URL -OutFile 'C:/tmp.7z' -UseBasicParsing ; \
   && 7z x C:/tmp.7z -oC:/Qt -bsp1 \
   && del C:\tmp.7z
+
+# Allow installing pip packages system-wide since there's no risk in a container
+ENV PIP_BREAK_SYSTEM_PACKAGES=1
