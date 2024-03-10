@@ -31,6 +31,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     python3-wheel \
     qtbase5-dev \
     qtdeclarative5-dev \
+    qtquickcontrols2-5-dev \
     qttools5-dev \
     qttools5-dev-tools \
     wget \
