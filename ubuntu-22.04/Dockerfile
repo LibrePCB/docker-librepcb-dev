@@ -20,8 +20,8 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     liboce-*-dev \
     libqt5opengl5 \
     libqt5opengl5-dev \
-    libqt5svg5-dev \
     libqt5sql5-sqlite \
+    libqt5svg5-dev \
     make \
     ninja-build \
     openssl \
