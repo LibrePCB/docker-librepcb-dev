@@ -20,8 +20,8 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     liboce-*-dev \
     libqt5opengl5 \
     libqt5opengl5-dev \
-    libqt5svg5-dev \
     libqt5sql5-sqlite \
+    libqt5svg5-dev \
     make \
     ninja-build \
     openssl \
@@ -29,8 +29,10 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     python3-pip \
     python3-setuptools \
     python3-wheel \
+    qt5-image-formats-plugins \
     qtbase5-dev \
     qtdeclarative5-dev \
+    qtquickcontrols2-5-dev \
     qttools5-dev \
     qttools5-dev-tools \
     wget \

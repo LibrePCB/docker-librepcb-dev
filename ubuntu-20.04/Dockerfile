@@ -18,22 +18,23 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     graphviz \
     libc++-dev \
     libc++abi-dev \
-    libdxflib3 \
     libdxflib-dev \
+    libdxflib3 \
     libglu1-mesa-dev \
     libgmock-dev \
     libgtest-dev \
-    libmuparser2v5 \
     libmuparser-dev \
+    libmuparser2v5 \
+    libpolyclipping-dev \
+    libpolyclipping22 \
     libqt5opengl5 \
     libqt5opengl5-dev \
-    libqt5svg5-dev \
     libqt5sql5-sqlite \
+    libqt5svg5-dev \
     libquazip5-1 \
     libquazip5-dev \
-    libpolyclipping22 \
-    libpolyclipping-dev \
     make \
+    ninja-build \
     openssl \
     pkg-config \
     python3 \
@@ -41,6 +42,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     python3-setuptools \
     python3-wheel \
     qt5-default \
+    qt5-image-formats-plugins \
     qtdeclarative5-dev \
     qttools5-dev \
     qttools5-dev-tools \
