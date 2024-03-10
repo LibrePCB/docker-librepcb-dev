@@ -108,19 +108,11 @@ RUN powershell -Command Invoke-WebRequest $env:QT_TRANSLATIONS_URL -OutFile 'C:/
   && del C:\tmp.7z
 
 # Install Qt Installer Framework
-ARG QT_IFW_VERSION="3.2.2"
-ARG QT_IFW_URL="https://download.qt.io/official_releases/qt-installer-framework/$QT_IFW_VERSION/QtInstallerFramework-win-x86.exe"
-COPY qtifw-installer-noninteractive.qs C:/qtifw-installer-noninteractive.qs
-RUN powershell -Command Invoke-WebRequest $env:QT_IFW_URL -OutFile 'C:/tmp.exe' -UseBasicParsing ; \
-  && C:/tmp.exe --script C:/qtifw-installer-noninteractive.qs --no-force-installations -v \
-  && setx PATH "%PATH%;C:\Qt\QtIFW-%QT_IFW_VERSION%\bin" \
-  && del C:\tmp.exe
+ADD QtIFW-3.2.2.tar.bz2 C:/Qt
+RUN setx PATH "%PATH%;C:\Qt\QtIFW-3.2.2\bin"
 
 # Install OpenSSL
-ARG OPENSSL_URL="https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_openssl_x86/qt.tools.openssl.win_x86/1.1.1-22openssl_1.1.1v_prebuild_x86.7z"
-RUN powershell -Command Invoke-WebRequest $env:OPENSSL_URL -OutFile 'C:/tmp.7z' -UseBasicParsing ; \
-  && 7z x C:/tmp.7z -oC:/Qt -bsp1 \
-  && del C:\tmp.7z
+ADD OpenSSL.tar.bz2 C:/Qt/Tools
 
 # Allow installing pip packages system-wide since there's no risk in a container
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
