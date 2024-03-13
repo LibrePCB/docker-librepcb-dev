@@ -208,3 +208,26 @@ RUN powershell -Command Invoke-WebRequest $env:LIBRESSL_URL -OutFile 'C:/tmp.tar
 #  5. Archive the directory "Program Files" to a *.tar.bz2
 ADD WindowsAppCertificationKitX64.tar.bz2 C:/
 RUN setx PATH "%PATH%;C:\Program Files\Windows Kits\10\App Certification Kit"
+
+# Install .NET Runtime
+#ARG DOTNET_RUNTIME_URL="https://dotnetcli.azureedge.net/dotnet/Runtime/6.0.0/dotnet-runtime-6.0.0-win-x64.zip"
+#RUN powershell -Command Invoke-WebRequest $env:DOTNET_RUNTIME_URL -OutFile 'C:/tmp.zip' -UseBasicParsing ; \
+#  && 7z x C:/tmp.zip -oC:/dotnet -bsp1 \
+#  && setx DOTNET_CLI_TELEMETRY_OPTOUT 1 \
+#  && setx PATH "%PATH%;C:\dotnet" \
+#  && del C:\tmp.zip
+
+# Install .NET SDK because the image ist not yet bloated enough
+ARG DOTNET_SDK_URL="https://aka.ms/vs/17/release/vs_BuildTools.exe"
+RUN powershell -Command Invoke-WebRequest $env:DOTNET_SDK_URL -OutFile 'C:/tmp.exe' -UseBasicParsing ; \
+  && C:/tmp.exe --quiet --norestart --nocache --wait \
+     --installPath "%ProgramFiles(x86)%\Microsoft Visual Studio\2022\BuildTools" \
+     --add Microsoft.NetCore.Component.SDK \
+     --add Microsoft.Net.Component.4.7.SDK \
+  && setx PATH "%PATH%;%ProgramFiles(x86)%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\amd64" \
+  && powershell Remove-Item -Force -Recurse "%TEMP%\*" \
+  && rmdir /S /Q "%ProgramData%\Package Cache" \
+  && del C:\tmp.exe
+
+# Install Wix Toolkit
+RUN dotnet tool install --global wix --version 4.0.4
