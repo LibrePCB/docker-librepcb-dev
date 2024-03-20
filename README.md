@@ -45,8 +45,14 @@ compiles on a standard Ubuntu 22.04.
 ### `windowsservercore-ltsc2019-qt5.15.2-32bit`
 
 Based on Windows Server Core LTSC2019 with Qt5.15.2, MinGW 8.1 32-bit
-and OpenCascade OCCT 7.7.0. This image is intended for deployment of official
-binary releases of LibrePCB for Windows.
+and OpenCascade OCCT 7.7.2. This image is intended for deployment of official
+32-bit binary releases of LibrePCB for Windows.
+
+### `windowsservercore-ltsc2019-qt6.6-64bit`
+
+Based on Windows Server Core LTSC2019 with Qt6.6.x, MinGW 11.2.0 64-bit
+and OpenCascade OCCT 7.7.2. This image is intended for deployment of official
+64-bit binary releases of LibrePCB for Windows.
 
 ### `webtools`
 
