@@ -22,6 +22,11 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     libqt5opengl5-dev \
     libqt5sql5-sqlite \
     libqt5svg5-dev \
+    libqt6core5compat6-dev \
+    libqt6opengl6-dev \
+    libqt6openglwidgets6 \
+    libqt6sql6-sqlite \
+    libqt6svg6-dev \
     make \
     ninja-build \
     openssl \
@@ -30,6 +35,12 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     python3-setuptools \
     python3-wheel \
     qt5-image-formats-plugins \
+    qt6-base-dev \
+    qt6-declarative-dev \
+    qt6-image-formats-plugins \
+    qt6-l10n-tools \
+    qt6-tools-dev \
+    qt6-tools-dev-tools \
     qtbase5-dev \
     qtdeclarative5-dev \
     qtquickcontrols2-5-dev \
