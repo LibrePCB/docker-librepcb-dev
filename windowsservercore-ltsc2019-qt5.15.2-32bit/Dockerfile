@@ -120,6 +120,17 @@ RUN setx PATH "%PATH%;C:\Qt\QtIFW-3.2.2\bin"
 # Install OpenSSL
 ADD OpenSSL.tar.bz2 C:/Qt/Tools
 
+# Install Windows App Certification Kit
+#
+# How to create the *.tar.bz2 (on Linux):
+#  1. Download ISO from https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/
+#  2. Extract ISO and navigate to the directory where the *.msi files are located
+#  3. msiextract "Windows App Certification Kit x64 (OnecoreUAP)-x86_en-us.msi"
+#  4. msiextract "Windows App Certification Kit x64-x86_en-us.msi"
+#  5. Archive the directory "Program Files" to a *.tar.bz2
+ADD WindowsAppCertificationKitX64.tar.bz2 C:/
+RUN setx PATH "%PATH%;C:\Program Files\Windows Kits\10\App Certification Kit"
+
 # Allow installing pip packages system-wide since there's no risk in a container
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
 
