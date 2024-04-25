@@ -81,6 +81,12 @@ An image providing all the web tools we need for
 * [Asciidoctor](https://asciidoctor.org/)
 * [Hugo](https://gohugo.io)
 
+### `devtools`
+
+An image used by the `dev/format_code.sh` script in the LibrePCB repository,
+providing various tools to format code. In addition, it is used on CI to
+check the coding style. Generally you never need to use this image directly.
+
 
 ## Updating Images
 
