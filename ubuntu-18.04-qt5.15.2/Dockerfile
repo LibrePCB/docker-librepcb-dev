@@ -80,6 +80,7 @@ RUN wget -c "${OCC_URL}" -O /tmp.tar.gz \
        -DCMAKE_BUILD_TYPE=Release \
        -DINSTALL_DIR=/usr \
        -DBUILD_LIBRARY_TYPE=Shared \
+       -DBUILD_DOC_Overview=0 \
        -DBUILD_MODULE_ApplicationFramework=0 \
        -DBUILD_MODULE_DataExchange=1 \
        -DBUILD_MODULE_Draw=0 \
