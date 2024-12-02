@@ -6,7 +6,6 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     bzip2 \
     ca-certificates \
     clang \
-    cmake \
     curl \
     dbus \
     doxygen \
@@ -24,6 +23,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     libglu1-mesa-dev \
     libodbc1 \
     libpq5 \
+    libssl-dev \
     libxcb-cursor0 \
     libxcb-glx0 \
     libxcb-icccm4 \
@@ -58,6 +58,18 @@ RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 100
 
 # Allow installing pip packages system-wide since there's no risk in a container
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
+
+# Install CMake
+ARG CMAKE_VERSION="3.31.1"
+ARG CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmake-$CMAKE_VERSION.tar.gz"
+RUN wget -c "${CMAKE_URL}" -O /tmp.tar.gz \
+  && tar -xzf /tmp.tar.gz -C /opt \
+  && rm /tmp.tar.gz \
+  && cd "/opt/cmake-$CMAKE_VERSION" \
+  && ./bootstrap --parallel=`nproc` \
+  && make -j`nproc` \
+  && make install \
+  && cd / && rm -rf "/opt/cmake-$CMAKE_VERSION"
 
 # Install OpenCascade
 ARG OCC_VERSION="7_7_2"
