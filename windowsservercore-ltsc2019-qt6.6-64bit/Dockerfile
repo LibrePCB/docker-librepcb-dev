@@ -50,12 +50,13 @@ RUN powershell -Command Invoke-WebRequest $env:NINJA_URL -OutFile 'C:/tmp.zip' -
   && setx PATH "%PATH%;C:\ninja" \
   && del C:\tmp.zip
 
-# Install CCache
-ARG CCACHE_URL="https://github.com/ccache/ccache/releases/download/v4.9.1/ccache-4.9.1-windows-x86_64.zip"
-RUN powershell -Command Invoke-WebRequest $env:CCACHE_URL -OutFile 'C:/tmp.zip' -UseBasicParsing ; \
+# Install sccache
+ARG SCCACHE_VERSION="0.8.2"
+ARG SCCACHE_URL="https://github.com/mozilla/sccache/releases/download/v$SCCACHE_VERSION/sccache-v$SCCACHE_VERSION-x86_64-pc-windows-msvc.zip"
+RUN powershell -Command Invoke-WebRequest $env:SCCACHE_URL -OutFile 'C:/tmp.zip' -UseBasicParsing ; \
   && 7z x C:/tmp.zip -oC:/ -bsp1 \
-  && rename ccache-4.9.1-windows-x86_64 ccache \
-  && setx PATH "%PATH%;C:\ccache" \
+  && rename sccache-v%SCCACHE_VERSION%-x86_64-pc-windows-msvc sccache \
+  && setx PATH "%PATH%;C:\sccache" \
   && del C:\tmp.zip
 
 # Install MinGW
