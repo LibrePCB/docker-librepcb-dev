@@ -65,6 +65,17 @@ RUN powershell -Command Invoke-WebRequest $env:MINGW_URL -OutFile 'C:/tmp.7z' -U
   && setx PATH "%PATH%;C:\Qt\Tools\mingw1120_64\bin" \
   && del C:\tmp.7z
 
+# Install Rust
+ARG RUST_VERSION="1.83.0"
+ARG RUSTUP_URL="https://static.rust-lang.org/rustup/dist/i686-pc-windows-gnu/rustup-init.exe"
+RUN powershell -Command Invoke-WebRequest $env:RUSTUP_URL -OutFile 'C:/rustup-init.exe' -UseBasicParsing ; \
+  && C:/rustup-init.exe -y -v \
+     --profile minimal \
+     --default-host x86_64-pc-windows-gnu \
+     --default-toolchain none \
+  && %USERPROFILE%\.cargo\bin\rustup install %RUST_VERSION% \
+  && del C:\rustup-init.exe
+
 # Install ZLib
 ARG ZLIB_VERSION="1.3.1"
 ARG ZLIB_URL="https://github.com/madler/zlib/releases/download/v$ZLIB_VERSION/zlib131.zip"
@@ -191,7 +202,7 @@ RUN powershell -Command Invoke-WebRequest $env:INNOSETUP_URL -OutFile 'C:/tmp.ex
   && del C:\tmp.exe
 
 # Install OpenSSL (last one in Dockerfile because it should be updated regularly)
-ARG OPENSSL_URL="https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_opensslv3_x64/qt.tools.opensslv3.win_x64/3.0.12-1openssl_3.0.12_prebuild_x64.7z"
+ARG OPENSSL_URL="https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_opensslv3_x64/qt.tools.opensslv3.win_x64/3.0.15-1openssl_3.0.15_prebuild_x64.7z"
 RUN powershell -Command Invoke-WebRequest $env:OPENSSL_URL -OutFile 'C:/tmp.7z' -UseBasicParsing ; \
   && 7z x C:/tmp.7z -oC:/Qt -bsp1 \
   && setx OPENSSL_ROOT "C:/Qt/Tools/OpenSSLv3/Win_x64" \
