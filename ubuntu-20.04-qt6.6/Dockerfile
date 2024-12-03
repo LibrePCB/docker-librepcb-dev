@@ -174,7 +174,7 @@ RUN /appimagetool-x86_64.AppImage --appimage-extract \
 
 # Install latest OpenSSL to avoid possible issues if servers some day stop
 # working with an old OpenSSL library (as already happened in the past).
-ARG OPENSSL_VERSION="3.2.1"
+ARG OPENSSL_VERSION="3.4.0"
 RUN wget -c "https://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz" -O /tmp.tar.gz \
   && tar -zxf /tmp.tar.gz \
   && cd "./openssl-$OPENSSL_VERSION" \
