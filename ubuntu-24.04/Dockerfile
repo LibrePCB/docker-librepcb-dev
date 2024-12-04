@@ -64,5 +64,8 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 100
 # Allow installing pip packages system-wide since there's no risk in a container
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
 
+# Make .cargo/ writable for everyone to allow running the container as non-root
+RUN mkdir /.cargo && chmod 777 /.cargo
+
 # LibrePCB's unittests expect that there is a USERNAME environment variable
 ENV USERNAME="root"
