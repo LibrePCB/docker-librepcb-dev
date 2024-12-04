@@ -10,7 +10,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     dbus \
     doxygen \
     file \
-    g++ \
+    g++-10 \
     git \
     graphviz \
     libc++-dev \
@@ -51,6 +51,10 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     zlib1g \
     zlib1g-dev \
   && rm -rf /var/lib/apt/lists/*
+
+# Activate g++-10
+RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 100
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100
 
 # Set Python3 as default Python version
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 100
