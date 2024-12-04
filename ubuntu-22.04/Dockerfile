@@ -5,6 +5,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     bzip2 \
     ca-certificates \
+    cargo \
     clang \
     cmake \
     curl \
@@ -47,6 +48,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     qt6-l10n-tools \
     qt6-tools-dev \
     qt6-tools-dev-tools \
+    rustc \
     wget \
     xvfb \
     zlib1g \
@@ -58,6 +60,18 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 100
 
 # Allow installing pip packages system-wide since there's no risk in a container
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
+
+# Make .cargo/ writable for everyone to allow running the container as non-root
+RUN mkdir /.cargo && chmod 777 /.cargo
+
+# Install sccache
+ARG SCCACHE_VERSION="0.8.2"
+ARG SCCACHE_URL="https://github.com/mozilla/sccache/releases/download/v$SCCACHE_VERSION/sccache-v$SCCACHE_VERSION-x86_64-unknown-linux-musl.tar.gz"
+RUN wget -c "$SCCACHE_URL" -O /tmp.tar.gz \
+  && tar -zxf /tmp.tar.gz \
+  && cp "./sccache-v$SCCACHE_VERSION-x86_64-unknown-linux-musl/sccache" /usr/local/bin/ \
+  && rm -rf "./sccache-v$SCCACHE_VERSION-x86_64-unknown-linux-musl" \
+  && rm /tmp.tar.gz
 
 # LibrePCB's unittests expect that there is a USERNAME environment variable
 ENV USERNAME="root"
