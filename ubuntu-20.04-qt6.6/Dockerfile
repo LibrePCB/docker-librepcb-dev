@@ -5,6 +5,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     bzip2 \
     ca-certificates \
+    cargo \
     clang \
     curl \
     dbus \
@@ -45,6 +46,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     python3-pip \
     python3-setuptools \
     python3-wheel \
+    rustc \
     software-properties-common \
     wget \
     xvfb \
@@ -63,6 +65,9 @@ RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 100
 # Allow installing pip packages system-wide since there's no risk in a container
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
 
+# Make .cargo/ writable for everyone to allow running the container as non-root
+RUN mkdir /.cargo && chmod 777 /.cargo
+
 # Install CMake
 ARG CMAKE_VERSION="3.31.1"
 ARG CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmake-$CMAKE_VERSION.tar.gz"
@@ -74,6 +79,15 @@ RUN wget -c "${CMAKE_URL}" -O /tmp.tar.gz \
   && make -j`nproc` \
   && make install \
   && cd / && rm -rf "/opt/cmake-$CMAKE_VERSION"
+
+# Install sccache
+ARG SCCACHE_VERSION="0.8.2"
+ARG SCCACHE_URL="https://github.com/mozilla/sccache/releases/download/v$SCCACHE_VERSION/sccache-v$SCCACHE_VERSION-x86_64-unknown-linux-musl.tar.gz"
+RUN wget -c "$SCCACHE_URL" -O /tmp.tar.gz \
+  && tar -zxf /tmp.tar.gz \
+  && cp "./sccache-v$SCCACHE_VERSION-x86_64-unknown-linux-musl/sccache" /usr/local/bin/ \
+  && rm -rf "./sccache-v$SCCACHE_VERSION-x86_64-unknown-linux-musl" \
+  && rm /tmp.tar.gz
 
 # Install OpenCascade
 ARG OCC_VERSION="7_7_2"
