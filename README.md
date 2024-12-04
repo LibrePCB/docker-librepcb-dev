@@ -38,9 +38,13 @@ googletest).
 
 ### `ubuntu-22.04`
 
-Based on Ubuntu 22.04, containing Qt and OpenCascade OCE from the official
-Ubuntu package repository. This image is intended to check if LibrePCB
-compiles on a standard Ubuntu 22.04.
+Based on Ubuntu 22.04, containing Qt from the official Ubuntu package
+repository. This image is intended to check if LibrePCB compiles on a standard
+Ubuntu 22.04.
+
+In addition, this image contains necessary tools for dynamic linking of
+LibrePCB (pkg-config, libdxflib, libmuparser, libquazip, libpolyclipping,
+googletest).
 
 ### `windowsservercore-ltsc2019-qt6.6-64bit`
 
