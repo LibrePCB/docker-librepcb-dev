@@ -31,7 +31,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     libqt6openglwidgets6 \
     libqt6sql6-sqlite \
     libqt6svg6-dev \
-    libtbb-dev \
+    libtbb2-dev \
     libxi-dev \
     make \
     ninja-build \
