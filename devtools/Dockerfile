@@ -1,4 +1,4 @@
-FROM ubuntu:23.10
+FROM ubuntu:24.04
 
 # Install APT packages
 RUN apt-get -q update \
