@@ -3,18 +3,22 @@ FROM ubuntu:24.04
 # Install APT packages
 RUN apt-get -q update \
  && apt-get -qy install \
-  # Documentation tools: Doxygen, Graphviz, qhelpgenerator
+  # Documentation tools: Doxygen, Graphviz, qhelpgenerator, rustdoc
   doxygen \
   graphviz \
   qt6-documentation-tools \
-  # Formatting tools: clang-format, qmlformat, xmlsort
+  rustc \
+  # Formatting tools: clang-format, qmlformat, rustfmt, xmlsort
   clang-format-15 \
   libxml-filter-sort-perl \
+  rustfmt \
   qt6-declarative-dev-tools \
-  # Stylecheck tools: git
+  # Stylecheck tools: git, rust-clippy
   git \
+  rust-clippy \
   # Python for custom formatting scripts, flake8 etc.
   python3 \
+  python3-debian \
   python3-pip \
   # Tools used on CI
   curl \
@@ -32,5 +36,5 @@ RUN ln -s /usr/lib/qt6/libexec/qhelpgenerator /usr/local/bin/qhelpgenerator
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
 RUN pip3 install \
   cmakelang==0.6.13 \
-  flake8==7.0.0 \
-  reuse==3.0.2
+  flake8==7.1.1 \
+  reuse==5.0.2
