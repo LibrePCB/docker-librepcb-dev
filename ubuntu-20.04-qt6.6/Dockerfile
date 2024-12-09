@@ -5,13 +5,13 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     bzip2 \
     ca-certificates \
+    cargo \
     clang \
-    cmake \
     curl \
     dbus \
     doxygen \
     file \
-    g++ \
+    g++-10 \
     git \
     graphviz \
     libc++-dev \
@@ -24,6 +24,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     libglu1-mesa-dev \
     libodbc1 \
     libpq5 \
+    libssl-dev \
     libxcb-cursor0 \
     libxcb-glx0 \
     libxcb-icccm4 \
@@ -45,6 +46,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     python3-pip \
     python3-setuptools \
     python3-wheel \
+    rustc \
     software-properties-common \
     wget \
     xvfb \
@@ -52,12 +54,40 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     zlib1g-dev \
   && rm -rf /var/lib/apt/lists/*
 
+# Activate g++-10
+RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 100
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100
+
 # Set Python3 as default Python version
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 100
 RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 100
 
 # Allow installing pip packages system-wide since there's no risk in a container
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
+
+# Make .cargo/ writable for everyone to allow running the container as non-root
+RUN mkdir /.cargo && chmod 777 /.cargo
+
+# Install CMake
+ARG CMAKE_VERSION="3.31.1"
+ARG CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmake-$CMAKE_VERSION.tar.gz"
+RUN wget -c "${CMAKE_URL}" -O /tmp.tar.gz \
+  && tar -xzf /tmp.tar.gz -C /opt \
+  && rm /tmp.tar.gz \
+  && cd "/opt/cmake-$CMAKE_VERSION" \
+  && ./bootstrap --parallel=`nproc` \
+  && make -j`nproc` \
+  && make install \
+  && cd / && rm -rf "/opt/cmake-$CMAKE_VERSION"
+
+# Install sccache
+ARG SCCACHE_VERSION="0.8.2"
+ARG SCCACHE_URL="https://github.com/mozilla/sccache/releases/download/v$SCCACHE_VERSION/sccache-v$SCCACHE_VERSION-x86_64-unknown-linux-musl.tar.gz"
+RUN wget -c "$SCCACHE_URL" -O /tmp.tar.gz \
+  && tar -zxf /tmp.tar.gz \
+  && cp "./sccache-v$SCCACHE_VERSION-x86_64-unknown-linux-musl/sccache" /usr/local/bin/ \
+  && rm -rf "./sccache-v$SCCACHE_VERSION-x86_64-unknown-linux-musl" \
+  && rm /tmp.tar.gz
 
 # Install OpenCascade
 ARG OCC_VERSION="7_7_2"
@@ -174,7 +204,7 @@ RUN /appimagetool-x86_64.AppImage --appimage-extract \
 
 # Install latest OpenSSL to avoid possible issues if servers some day stop
 # working with an old OpenSSL library (as already happened in the past).
-ARG OPENSSL_VERSION="3.2.1"
+ARG OPENSSL_VERSION="3.4.0"
 RUN wget -c "https://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz" -O /tmp.tar.gz \
   && tar -zxf /tmp.tar.gz \
   && cd "./openssl-$OPENSSL_VERSION" \
