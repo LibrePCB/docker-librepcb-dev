@@ -5,7 +5,6 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     bzip2 \
     ca-certificates \
-    cargo \
     clang \
     curl \
     dbus \
@@ -46,7 +45,6 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     python3-pip \
     python3-setuptools \
     python3-wheel \
-    rustc \
     software-properties-common \
     wget \
     xvfb \
@@ -64,6 +62,11 @@ RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 100
 
 # Allow installing pip packages system-wide since there's no risk in a container
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
+
+# Install Rust
+ARG RUST_VERSION="1.83.0"
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+  | sh -s -- -y --default-toolchain $RUST_VERSION
 
 # Make .cargo/ writable for everyone to allow running the container as non-root
 RUN mkdir /.cargo && chmod 777 /.cargo
