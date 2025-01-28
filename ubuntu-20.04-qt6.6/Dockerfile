@@ -5,6 +5,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     bzip2 \
     ca-certificates \
+    ccache \
     clang \
     curl \
     dbus \
@@ -64,12 +65,15 @@ RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 100
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
 
 # Install Rust
+# Make .cargo/ writable for everyone to allow running the container as non-root.
 ARG RUST_VERSION="1.83.0"
+ENV RUSTUP_HOME="/.rustup" \
+    CARGO_HOME="/.cargo" \
+    PATH="/.cargo/bin:$PATH"
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
-  | sh -s -- -y --default-toolchain $RUST_VERSION
-
-# Make .cargo/ writable for everyone to allow running the container as non-root
-RUN mkdir /.cargo && chmod 777 /.cargo
+    | sh -s -- -y --default-toolchain $RUST_VERSION --no-modify-path \
+  && chmod 777 $RUSTUP_HOME \
+  && chmod 777 $CARGO_HOME
 
 # Install CMake
 ARG CMAKE_VERSION="3.31.1"
