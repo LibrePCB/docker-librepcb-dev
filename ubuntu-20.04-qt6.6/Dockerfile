@@ -6,6 +6,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     bzip2 \
     ca-certificates \
     cargo \
+    ccache \
     clang \
     curl \
     dbus \
