@@ -5,7 +5,6 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     bzip2 \
     ca-certificates \
-    cargo \
     ccache \
     clang \
     cmake \
@@ -49,7 +48,6 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     qt6-l10n-tools \
     qt6-tools-dev \
     qt6-tools-dev-tools \
-    rustc \
     wget \
     xvfb \
     zlib1g \
@@ -62,8 +60,16 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 100
 # Allow installing pip packages system-wide since there's no risk in a container
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
 
-# Make .cargo/ writable for everyone to allow running the container as non-root
-RUN mkdir /.cargo && chmod 777 /.cargo
+# Install Rust
+# Make .cargo/ writable for everyone to allow running the container as non-root.
+ARG RUST_VERSION="1.85.0"
+ENV RUSTUP_HOME="/.rustup" \
+    CARGO_HOME="/.cargo" \
+    PATH="/.cargo/bin:$PATH"
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+    | sh -s -- -y --default-toolchain $RUST_VERSION --profile minimal --no-modify-path \
+  && chmod 777 $RUSTUP_HOME \
+  && chmod 777 $CARGO_HOME
 
 # Install sccache
 ARG SCCACHE_VERSION="0.8.2"
