@@ -41,6 +41,14 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
   && chmod 777 $RUSTUP_HOME \
   && chmod 777 $CARGO_HOME
 
+# Install slint-lsp for its formatter
+ARG SLINT_LSP_VERSION="1.10.0"
+ARG SLINT_LSP_URL="https://github.com/slint-ui/slint/releases/download/v${SLINT_LSP_VERSION}/slint-lsp-linux.tar.gz"
+RUN wget -c "${SLINT_LSP_URL}" -O /tmp.tar.gz \
+  && tar -xzf /tmp.tar.gz -C /usr/local/bin --strip-components 1 slint-lsp/slint-lsp \
+  && rm /tmp.tar.gz \
+  && slint-lsp --version
+
 # Install Python packages
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
 RUN pip3 install \
