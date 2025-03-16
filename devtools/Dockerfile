@@ -3,19 +3,16 @@ FROM ubuntu:24.04
 # Install APT packages
 RUN apt-get -q update \
  && apt-get -qy install \
-  # Documentation tools: Doxygen, Graphviz, qhelpgenerator, rustdoc
+  # Documentation tools: Doxygen, Graphviz, qhelpgenerator
   doxygen \
   graphviz \
   qt6-documentation-tools \
-  rustc \
-  # Formatting tools: clang-format, qmlformat, rustfmt, xmlsort
+  # Formatting tools: clang-format, qmlformat, xmlsort
   clang-format-15 \
   libxml-filter-sort-perl \
-  rustfmt \
   qt6-declarative-dev-tools \
-  # Stylecheck tools: git, rust-clippy
+  # Stylecheck tools: git
   git \
-  rust-clippy \
   # Python for custom formatting scripts, flake8 etc.
   python3 \
   python3-debian \
@@ -32,6 +29,17 @@ RUN update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/cl
 
 # Put qhelpgenerator in PATH
 RUN ln -s /usr/lib/qt6/libexec/qhelpgenerator /usr/local/bin/qhelpgenerator
+
+# Install Rust, including rustdoc, rustfmt, rust-clippy
+# Make .cargo/ writable for everyone to allow running the container as non-root.
+ARG RUST_VERSION="1.85.0"
+ENV RUSTUP_HOME="/.rustup" \
+    CARGO_HOME="/.cargo" \
+    PATH="/.cargo/bin:$PATH"
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+    | sh -s -- -y --default-toolchain $RUST_VERSION --no-modify-path \
+  && chmod 777 $RUSTUP_HOME \
+  && chmod 777 $CARGO_HOME
 
 # Install Python packages
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
