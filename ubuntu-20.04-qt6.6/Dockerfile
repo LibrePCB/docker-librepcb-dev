@@ -209,6 +209,19 @@ RUN /appimagetool-x86_64.AppImage --appimage-extract \
   && ln -s /opt/appimagetool/AppRun /usr/local/bin/appimagetool \
   && rm /appimagetool-x86_64.AppImage
 
+# Install linuxdeploy
+ARG LINUXDEPLOY_URL="https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20250213-2/linuxdeploy-x86_64.AppImage"
+ARG LINUXDEPLOY_PLUGIN_APPIMAGE_URL="https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/1-alpha-20250213-1/linuxdeploy-plugin-appimage-x86_64.AppImage"
+ARG LINUXDEPLOY_PLUGIN_QT_URL="https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/1-alpha-20250213-1/linuxdeploy-plugin-qt-x86_64.AppImage"
+ENV APPIMAGE_EXTRACT_AND_RUN=1
+RUN wget -c "$LINUXDEPLOY_URL" -O /usr/local/bin/linuxdeploy-x86_64.AppImage \
+  && chmod a+x /usr/local/bin/linuxdeploy-x86_64.AppImage \
+  && wget -c "$LINUXDEPLOY_PLUGIN_APPIMAGE_URL" -O /usr/local/bin/linuxdeploy-plugin-appimage-x86_64.AppImage \
+  && chmod a+x /usr/local/bin/linuxdeploy-plugin-appimage-x86_64.AppImage \
+  && wget -c "$LINUXDEPLOY_PLUGIN_QT_URL" -O /usr/local/bin/linuxdeploy-plugin-qt-x86_64.AppImage \
+  && chmod a+x /usr/local/bin/linuxdeploy-plugin-qt-x86_64.AppImage \
+  && linuxdeploy-x86_64.AppImage --list-plugins
+
 # Install latest OpenSSL to avoid possible issues if servers some day stop
 # working with an old OpenSSL library (as already happened in the past).
 ARG OPENSSL_VERSION="3.4.1"
