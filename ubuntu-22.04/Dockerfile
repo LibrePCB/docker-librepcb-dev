@@ -12,6 +12,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     dbus \
     file \
     g++ \
+    gettext \
     git \
     googletest \
     libc++-dev \
