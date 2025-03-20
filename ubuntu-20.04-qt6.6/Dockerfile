@@ -12,6 +12,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     doxygen \
     file \
     g++-10 \
+    gettext \
     git \
     graphviz \
     libc++-dev \
