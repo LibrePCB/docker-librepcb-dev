@@ -11,7 +11,8 @@ RUN apt-get -q update \
   clang-format-15 \
   libxml-filter-sort-perl \
   qt6-declarative-dev-tools \
-  # Stylecheck tools: git
+  # Stylecheck tools: git, appstream-util
+  appstream-util \
   git \
   # Python for custom formatting scripts, flake8 etc.
   python3 \
