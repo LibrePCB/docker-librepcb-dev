@@ -17,6 +17,9 @@ RUN apt-get -q update \
   python3 \
   python3-debian \
   python3-pip \
+  # Translation tools
+  python3-defusedxml \
+  qt6-l10n-tools \
   # Tools used on CI
   curl \
   file \
@@ -27,8 +30,8 @@ RUN apt-get -q update \
 # Configure default clang-format
 RUN update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-15 50
 
-# Put qhelpgenerator in PATH
-RUN ln -s /usr/lib/qt6/libexec/qhelpgenerator /usr/local/bin/qhelpgenerator
+# Put Qt tools in PATH (lupdate, qhelpgenerator, ...)
+ENV PATH="$PATH:/usr/lib/qt6/bin:/usr/lib/qt6/libexec"
 
 # Install Rust, including rustdoc, rustfmt, rust-clippy
 # Make .cargo/ writable for everyone to allow running the container as non-root.
@@ -40,6 +43,12 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
     | sh -s -- -y --default-toolchain $RUST_VERSION --no-modify-path \
   && chmod 777 $RUSTUP_HOME \
   && chmod 777 $CARGO_HOME
+
+# Install slint-tr-extractor for usage on LibrePCB server
+ARG SLINT_TR_EXTRACTOR_VERSION="1.10.0"
+RUN cargo install --version $SLINT_TR_EXTRACTOR_VERSION slint-tr-extractor \
+  && rm -rf $CARGO_HOME/registry \
+  && slint-tr-extractor --version
 
 # Install slint-lsp for its formatter
 ARG SLINT_LSP_VERSION="1.10.0"
