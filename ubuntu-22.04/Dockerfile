@@ -63,7 +63,7 @@ ENV PIP_BREAK_SYSTEM_PACKAGES=1
 
 # Install Rust
 # Make .cargo/ writable for everyone to allow running the container as non-root.
-ARG RUST_VERSION="1.85.0"
+ARG RUST_VERSION="1.85.1"
 ENV RUSTUP_HOME="/.rustup" \
     CARGO_HOME="/.cargo" \
     PATH="/.cargo/bin:$PATH"

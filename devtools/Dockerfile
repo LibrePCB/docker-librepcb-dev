@@ -36,7 +36,7 @@ ENV PATH="$PATH:/usr/lib/qt6/bin:/usr/lib/qt6/libexec"
 
 # Install Rust, including rustdoc, rustfmt, rust-clippy
 # Make .cargo/ writable for everyone to allow running the container as non-root.
-ARG RUST_VERSION="1.85.0"
+ARG RUST_VERSION="1.85.1"
 ENV RUSTUP_HOME="/.rustup" \
     CARGO_HOME="/.cargo" \
     PATH="/.cargo/bin:$PATH"
