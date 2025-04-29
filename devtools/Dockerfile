@@ -46,13 +46,13 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
   && chmod 777 $CARGO_HOME
 
 # Install slint-tr-extractor for usage on LibrePCB server
-ARG SLINT_TR_EXTRACTOR_VERSION="1.10.0"
+ARG SLINT_TR_EXTRACTOR_VERSION="1.11.0"
 RUN cargo install --version $SLINT_TR_EXTRACTOR_VERSION slint-tr-extractor \
   && rm -rf $CARGO_HOME/registry \
   && slint-tr-extractor --version
 
 # Install slint-lsp for its formatter
-ARG SLINT_LSP_VERSION="1.10.0"
+ARG SLINT_LSP_VERSION="1.11.0"
 ARG SLINT_LSP_URL="https://github.com/slint-ui/slint/releases/download/v${SLINT_LSP_VERSION}/slint-lsp-linux.tar.gz"
 RUN wget -c "${SLINT_LSP_URL}" -O /tmp.tar.gz \
   && tar -xzf /tmp.tar.gz -C /usr/local/bin --strip-components 1 slint-lsp/slint-lsp \
