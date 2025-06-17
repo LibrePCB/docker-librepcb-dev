@@ -162,18 +162,8 @@ RUN wget -c "${QT_URL}qtsvg-Linux-RHEL_8_8-GCC-Linux-RHEL_8_8-X86_64.7z" -O /tmp
   && 7za x /tmp.7z -o/opt/qt \
   && rm /tmp.7z
 
-# Install Qt Declarative
-RUN wget -c "${QT_URL}qtdeclarative-Linux-RHEL_8_8-GCC-Linux-RHEL_8_8-X86_64.7z" -O /tmp.7z \
-  && 7za x /tmp.7z -o/opt/qt \
-  && rm /tmp.7z
-
 # Install Qt Translations
 RUN wget -c "${QT_URL}qttranslations-Linux-RHEL_8_8-GCC-Linux-RHEL_8_8-X86_64.7z" -O /tmp.7z \
-  && 7za x /tmp.7z -o/opt/qt \
-  && rm /tmp.7z
-
-# Install Qt5 Compat
-RUN wget -c "${QT_BASEURL}/qt.qt6.662.qt5compat.gcc_64/6.6.2-0-202402121133qt5compat-Linux-RHEL_8_8-GCC-Linux-RHEL_8_8-X86_64.7z" -O /tmp.7z \
   && 7za x /tmp.7z -o/opt/qt \
   && rm /tmp.7z
 
