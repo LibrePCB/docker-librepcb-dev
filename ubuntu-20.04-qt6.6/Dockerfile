@@ -78,7 +78,7 @@ RUN wget -c "${CMAKE_URL}" -O /tmp.tar.gz \
   && cd / && rm -rf "/opt/cmake-$CMAKE_VERSION"
 
 # Install OpenCascade
-ARG OCC_VERSION="7_7_2"
+ARG OCC_VERSION="7_9_1"
 ARG OCC_URL="https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V$OCC_VERSION.tar.gz"
 RUN wget -c "${OCC_URL}" -O /tmp.tar.gz \
   && tar -xzf /tmp.tar.gz -C /opt \
