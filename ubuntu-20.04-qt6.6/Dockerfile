@@ -188,7 +188,7 @@ RUN uv python install $PYTHON_VERSION
 
 # Install latest OpenSSL to avoid possible issues if servers some day stop
 # working with an old OpenSSL library (as already happened in the past).
-ARG OPENSSL_VERSION="3.4.1"
+ARG OPENSSL_VERSION="3.5.0"
 ENV LD_LIBRARY_PATH="/opt/openssl/lib:$LD_LIBRARY_PATH"
 RUN apt-get remove -y libssl-dev \
   && wget -c "https://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz" -O /tmp.tar.gz \
