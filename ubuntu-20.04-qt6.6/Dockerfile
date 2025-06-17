@@ -168,29 +168,6 @@ RUN wget -c "${QT_URL}icu-linux-Rhel7.2-x64.7z" -O /tmp.7z \
   && 7za x /tmp.7z -o/opt/qt \
   && rm /tmp.7z
 
-# Install linuxdeployqt
-ARG LINUXDEPLOYQT_URL="https://github.com/probonopd/linuxdeployqt/releases/download/10/linuxdeployqt-continuous-x86_64.AppImage"
-RUN wget -c "$LINUXDEPLOYQT_URL" -O /linuxdeployqt.AppImage \
-  && chmod a+x /linuxdeployqt.AppImage \
-  && /linuxdeployqt.AppImage --appimage-extract \
-  && chmod -R 755 /squashfs-root \
-  && mv /squashfs-root /opt/linuxdeployqt \
-  && ln -s /opt/linuxdeployqt/AppRun /usr/local/bin/linuxdeployqt \
-  && rm /linuxdeployqt.AppImage
-
-# Install beta appimagetool which should not depend on any system libraries
-# anymore, and should therefore run on Ubuntu 22.04 which doesn't provide
-# libfuse2 anymore (see https://github.com/LibrePCB/LibrePCB/issues/980).
-# However, since there are no official releases yet, the binary is downloaded
-# from the nightly build and added to the repository. Download URL:
-# https://github.com/probonopd/go-appimage/releases/download/continuous/appimagetool-765-x86_64.AppImage
-COPY appimagetool-x86_64.AppImage /appimagetool-x86_64.AppImage
-RUN /appimagetool-x86_64.AppImage --appimage-extract \
-  && chmod -R 755 /squashfs-root \
-  && mv /squashfs-root /opt/appimagetool \
-  && ln -s /opt/appimagetool/AppRun /usr/local/bin/appimagetool \
-  && rm /appimagetool-x86_64.AppImage
-
 # Install linuxdeploy
 ARG LINUXDEPLOY_URL="https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20250213-2/linuxdeploy-x86_64.AppImage"
 ARG LINUXDEPLOY_PLUGIN_APPIMAGE_URL="https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/1-alpha-20250213-1/linuxdeploy-plugin-appimage-x86_64.AppImage"
