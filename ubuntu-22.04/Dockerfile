@@ -70,14 +70,5 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
   && chmod 777 $RUSTUP_HOME \
   && chmod 777 $CARGO_HOME
 
-# Install sccache
-ARG SCCACHE_VERSION="0.8.2"
-ARG SCCACHE_URL="https://github.com/mozilla/sccache/releases/download/v$SCCACHE_VERSION/sccache-v$SCCACHE_VERSION-x86_64-unknown-linux-musl.tar.gz"
-RUN wget -c "$SCCACHE_URL" -O /tmp.tar.gz \
-  && tar -zxf /tmp.tar.gz \
-  && cp "./sccache-v$SCCACHE_VERSION-x86_64-unknown-linux-musl/sccache" /usr/local/bin/ \
-  && rm -rf "./sccache-v$SCCACHE_VERSION-x86_64-unknown-linux-musl" \
-  && rm /tmp.tar.gz
-
 # LibrePCB's unittests expect that there is a USERNAME environment variable
 ENV USERNAME="root"

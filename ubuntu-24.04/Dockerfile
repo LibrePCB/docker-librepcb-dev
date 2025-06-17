@@ -49,7 +49,6 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     qt6-l10n-tools \
     qt6-tools-dev \
     qt6-tools-dev-tools \
-    sccache \
     wget \
     xvfb \
     zlib1g \
