@@ -66,7 +66,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
   && chmod 777 $CARGO_HOME
 
 # Install CMake
-ARG CMAKE_VERSION="3.31.1"
+ARG CMAKE_VERSION="4.0.3"
 ARG CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmake-$CMAKE_VERSION.tar.gz"
 RUN wget -c "${CMAKE_URL}" -O /tmp.tar.gz \
   && tar -xzf /tmp.tar.gz -C /opt \
