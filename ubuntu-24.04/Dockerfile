@@ -31,8 +31,6 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     libqt6openglwidgets6 \
     libqt6sql6-sqlite \
     libqt6svg6-dev \
-    libquazip1-qt6-1t64 \
-    libquazip1-qt6-dev \
     libtbb-dev \
     libxi-dev \
     make \
