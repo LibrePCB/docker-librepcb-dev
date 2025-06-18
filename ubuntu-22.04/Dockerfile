@@ -27,7 +27,6 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     libocct-*-dev \
     libpolyclipping-dev \
     libpolyclipping22 \
-    libqt6core5compat6-dev \
     libqt6opengl6-dev \
     libqt6openglwidgets6 \
     libqt6sql6-sqlite \
@@ -39,12 +38,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     occt-misc \
     openssl \
     pkg-config \
-    python3 \
-    python3-pip \
-    python3-setuptools \
-    python3-wheel \
     qt6-base-dev \
-    qt6-declarative-dev \
     qt6-image-formats-plugins \
     qt6-l10n-tools \
     qt6-tools-dev \
@@ -55,15 +49,9 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     zlib1g-dev \
   && rm -rf /var/lib/apt/lists/*
 
-# Set Python3 as default Python version
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 100
-
-# Allow installing pip packages system-wide since there's no risk in a container
-ENV PIP_BREAK_SYSTEM_PACKAGES=1
-
 # Install Rust
 # Make .cargo/ writable for everyone to allow running the container as non-root.
-ARG RUST_VERSION="1.85.1"
+ARG RUST_VERSION="1.87.0"
 ENV RUSTUP_HOME="/.rustup" \
     CARGO_HOME="/.cargo" \
     PATH="/.cargo/bin:$PATH"
@@ -72,14 +60,21 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
   && chmod 777 $RUSTUP_HOME \
   && chmod 777 $CARGO_HOME
 
-# Install sccache
-ARG SCCACHE_VERSION="0.8.2"
-ARG SCCACHE_URL="https://github.com/mozilla/sccache/releases/download/v$SCCACHE_VERSION/sccache-v$SCCACHE_VERSION-x86_64-unknown-linux-musl.tar.gz"
-RUN wget -c "$SCCACHE_URL" -O /tmp.tar.gz \
-  && tar -zxf /tmp.tar.gz \
-  && cp "./sccache-v$SCCACHE_VERSION-x86_64-unknown-linux-musl/sccache" /usr/local/bin/ \
-  && rm -rf "./sccache-v$SCCACHE_VERSION-x86_64-unknown-linux-musl" \
-  && rm /tmp.tar.gz
+# Install UV
+# Set its python directory to a known, user-writable path to allow accessing the
+# python versions installed during docker build from within CI runs which are
+# run as non-root.
+ARG UV_VERSION="0.7.13"
+ARG UV_URL="https://github.com/astral-sh/uv/releases/download/$UV_VERSION/uv-x86_64-unknown-linux-gnu.tar.gz"
+ENV UV_PYTHON_INSTALL_DIR="/.uv/python"
+RUN wget -c "${UV_URL}" -O /tmp.tar.gz \
+  && tar -xzf /tmp.tar.gz --strip-components=1 -C /usr/local/bin/ \
+  && rm /tmp.tar.gz \
+  && mkdir -p $UV_PYTHON_INSTALL_DIR && chmod 777 $UV_PYTHON_INSTALL_DIR
+
+# Pre-install a Python version
+ARG PYTHON_VERSION="3.13"
+RUN uv python install $PYTHON_VERSION
 
 # LibrePCB's unittests expect that there is a USERNAME environment variable
 ENV USERNAME="root"

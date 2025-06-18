@@ -43,10 +43,6 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     make \
     ninja-build \
     p7zip-full \
-    python3 \
-    python3-pip \
-    python3-setuptools \
-    python3-wheel \
     software-properties-common \
     wget \
     xvfb \
@@ -58,16 +54,9 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
 RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 100
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100
 
-# Set Python3 as default Python version
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 100
-RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 100
-
-# Allow installing pip packages system-wide since there's no risk in a container
-ENV PIP_BREAK_SYSTEM_PACKAGES=1
-
 # Install Rust
 # Make .cargo/ writable for everyone to allow running the container as non-root.
-ARG RUST_VERSION="1.85.1"
+ARG RUST_VERSION="1.87.0"
 ENV RUSTUP_HOME="/.rustup" \
     CARGO_HOME="/.cargo" \
     PATH="/.cargo/bin:$PATH"
@@ -77,7 +66,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
   && chmod 777 $CARGO_HOME
 
 # Install CMake
-ARG CMAKE_VERSION="3.31.1"
+ARG CMAKE_VERSION="4.0.3"
 ARG CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmake-$CMAKE_VERSION.tar.gz"
 RUN wget -c "${CMAKE_URL}" -O /tmp.tar.gz \
   && tar -xzf /tmp.tar.gz -C /opt \
@@ -88,17 +77,8 @@ RUN wget -c "${CMAKE_URL}" -O /tmp.tar.gz \
   && make install \
   && cd / && rm -rf "/opt/cmake-$CMAKE_VERSION"
 
-# Install sccache
-ARG SCCACHE_VERSION="0.8.2"
-ARG SCCACHE_URL="https://github.com/mozilla/sccache/releases/download/v$SCCACHE_VERSION/sccache-v$SCCACHE_VERSION-x86_64-unknown-linux-musl.tar.gz"
-RUN wget -c "$SCCACHE_URL" -O /tmp.tar.gz \
-  && tar -zxf /tmp.tar.gz \
-  && cp "./sccache-v$SCCACHE_VERSION-x86_64-unknown-linux-musl/sccache" /usr/local/bin/ \
-  && rm -rf "./sccache-v$SCCACHE_VERSION-x86_64-unknown-linux-musl" \
-  && rm /tmp.tar.gz
-
 # Install OpenCascade
-ARG OCC_VERSION="7_7_2"
+ARG OCC_VERSION="7_9_1"
 ARG OCC_URL="https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V$OCC_VERSION.tar.gz"
 RUN wget -c "${OCC_URL}" -O /tmp.tar.gz \
   && tar -xzf /tmp.tar.gz -C /opt \
@@ -162,18 +142,8 @@ RUN wget -c "${QT_URL}qtsvg-Linux-RHEL_8_8-GCC-Linux-RHEL_8_8-X86_64.7z" -O /tmp
   && 7za x /tmp.7z -o/opt/qt \
   && rm /tmp.7z
 
-# Install Qt Declarative
-RUN wget -c "${QT_URL}qtdeclarative-Linux-RHEL_8_8-GCC-Linux-RHEL_8_8-X86_64.7z" -O /tmp.7z \
-  && 7za x /tmp.7z -o/opt/qt \
-  && rm /tmp.7z
-
 # Install Qt Translations
 RUN wget -c "${QT_URL}qttranslations-Linux-RHEL_8_8-GCC-Linux-RHEL_8_8-X86_64.7z" -O /tmp.7z \
-  && 7za x /tmp.7z -o/opt/qt \
-  && rm /tmp.7z
-
-# Install Qt5 Compat
-RUN wget -c "${QT_BASEURL}/qt.qt6.662.qt5compat.gcc_64/6.6.2-0-202402121133qt5compat-Linux-RHEL_8_8-GCC-Linux-RHEL_8_8-X86_64.7z" -O /tmp.7z \
   && 7za x /tmp.7z -o/opt/qt \
   && rm /tmp.7z
 
@@ -186,29 +156,6 @@ RUN wget -c "${QT_BASEURL}/qt.qt6.662.addons.qtimageformats.gcc_64/6.6.2-0-20240
 RUN wget -c "${QT_URL}icu-linux-Rhel7.2-x64.7z" -O /tmp.7z \
   && 7za x /tmp.7z -o/opt/qt \
   && rm /tmp.7z
-
-# Install linuxdeployqt
-ARG LINUXDEPLOYQT_URL="https://github.com/probonopd/linuxdeployqt/releases/download/10/linuxdeployqt-continuous-x86_64.AppImage"
-RUN wget -c "$LINUXDEPLOYQT_URL" -O /linuxdeployqt.AppImage \
-  && chmod a+x /linuxdeployqt.AppImage \
-  && /linuxdeployqt.AppImage --appimage-extract \
-  && chmod -R 755 /squashfs-root \
-  && mv /squashfs-root /opt/linuxdeployqt \
-  && ln -s /opt/linuxdeployqt/AppRun /usr/local/bin/linuxdeployqt \
-  && rm /linuxdeployqt.AppImage
-
-# Install beta appimagetool which should not depend on any system libraries
-# anymore, and should therefore run on Ubuntu 22.04 which doesn't provide
-# libfuse2 anymore (see https://github.com/LibrePCB/LibrePCB/issues/980).
-# However, since there are no official releases yet, the binary is downloaded
-# from the nightly build and added to the repository. Download URL:
-# https://github.com/probonopd/go-appimage/releases/download/continuous/appimagetool-765-x86_64.AppImage
-COPY appimagetool-x86_64.AppImage /appimagetool-x86_64.AppImage
-RUN /appimagetool-x86_64.AppImage --appimage-extract \
-  && chmod -R 755 /squashfs-root \
-  && mv /squashfs-root /opt/appimagetool \
-  && ln -s /opt/appimagetool/AppRun /usr/local/bin/appimagetool \
-  && rm /appimagetool-x86_64.AppImage
 
 # Install linuxdeploy
 ARG LINUXDEPLOY_URL="https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20250213-2/linuxdeploy-x86_64.AppImage"
@@ -223,9 +170,25 @@ RUN wget -c "$LINUXDEPLOY_URL" -O /usr/local/bin/linuxdeploy-x86_64.AppImage \
   && chmod a+x /usr/local/bin/linuxdeploy-plugin-qt-x86_64.AppImage \
   && linuxdeploy-x86_64.AppImage --list-plugins
 
+# Install UV
+# Set its python directory to a known, user-writable path to allow accessing the
+# python versions installed during docker build from within CI runs which are
+# run as non-root.
+ARG UV_VERSION="0.7.13"
+ARG UV_URL="https://github.com/astral-sh/uv/releases/download/$UV_VERSION/uv-x86_64-unknown-linux-gnu.tar.gz"
+ENV UV_PYTHON_INSTALL_DIR="/.uv/python"
+RUN wget -c "${UV_URL}" -O /tmp.tar.gz \
+  && tar -xzf /tmp.tar.gz --strip-components=1 -C /usr/local/bin/ \
+  && rm /tmp.tar.gz \
+  && mkdir -p $UV_PYTHON_INSTALL_DIR && chmod 777 $UV_PYTHON_INSTALL_DIR
+
+# Pre-install a Python version
+ARG PYTHON_VERSION="3.13"
+RUN uv python install $PYTHON_VERSION
+
 # Install latest OpenSSL to avoid possible issues if servers some day stop
 # working with an old OpenSSL library (as already happened in the past).
-ARG OPENSSL_VERSION="3.4.1"
+ARG OPENSSL_VERSION="3.5.0"
 ENV LD_LIBRARY_PATH="/opt/openssl/lib:$LD_LIBRARY_PATH"
 RUN apt-get remove -y libssl-dev \
   && wget -c "https://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz" -O /tmp.tar.gz \
