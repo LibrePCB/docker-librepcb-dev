@@ -59,6 +59,22 @@ RUN wget -c "${SLINT_LSP_URL}" -O /tmp.tar.gz \
   && rm /tmp.tar.gz \
   && slint-lsp --version
 
+# Install UV
+# Set its python directory to a known, user-writable path to allow accessing the
+# python versions installed during docker build from within CI runs which are
+# run as non-root.
+ARG UV_VERSION="0.7.13"
+ARG UV_URL="https://github.com/astral-sh/uv/releases/download/$UV_VERSION/uv-x86_64-unknown-linux-gnu.tar.gz"
+ENV UV_PYTHON_INSTALL_DIR="/.uv/python"
+RUN wget -c "${UV_URL}" -O /tmp.tar.gz \
+  && tar -xzf /tmp.tar.gz --strip-components=1 -C /usr/local/bin/ \
+  && rm /tmp.tar.gz \
+  && mkdir -p $UV_PYTHON_INSTALL_DIR && chmod 777 $UV_PYTHON_INSTALL_DIR
+
+# Pre-install a Python version
+ARG PYTHON_VERSION="3.13"
+RUN uv python install $PYTHON_VERSION
+
 # Install Python packages
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
 RUN pip3 install \
