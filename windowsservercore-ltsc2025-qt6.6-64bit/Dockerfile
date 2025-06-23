@@ -3,6 +3,10 @@ FROM mcr.microsoft.com/windows/servercore:ltsc2025
 # Add OpenGL DLLs from a Windows desktop to allow running unit tests within the container
 ADD *.dll C:/Windows/System32/
 
+# Add Arial font since Slint requires it, see
+# https://github.com/slint-ui/slint/issues/2556#issuecomment-2995413102
+ADD arial.ttf C:/Windows/Fonts/
+
 # Install Microsoft Visual C++ Redistributable for Visual Studio 2015-2022
 ARG VCREDIST_URL="https://download.visualstudio.microsoft.com/download/pr/6ba404bb-6312-403e-83be-04b062914c98/1AD7988C17663CC742B01BEF1A6DF2ED1741173009579AD50A94434E54F56073/VC_redist.x64.exe"
 RUN curl -o "C:/tmp.exe" -L "%VCREDIST_URL%" \
