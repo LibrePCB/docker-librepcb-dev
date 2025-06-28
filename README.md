@@ -105,6 +105,17 @@ docker run -it --rm \
 ```
 
 
+## Set up Windows Machine
+
+To build the Docker images for Windows, you need a Windows Server edition of
+the same version as our Docker images. Then install Docker CE with this command:
+
+    Invoke-WebRequest -UseBasicParsing "https://raw.githubusercontent.com/microsoft/Windows-Containers/Main/helpful_tools/Install-DockerCE/install-docker-ce.ps1" -o install-docker-ce.ps1
+    .\install-docker-ce.ps1
+
+Source: https://learn.microsoft.com/en-us/virtualization/windowscontainers/quick-start/set-up-environment?tabs=dockerce
+
+
 ## License
 
 The content in this repository is published under the
