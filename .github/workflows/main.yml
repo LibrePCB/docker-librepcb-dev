@@ -1,0 +1,36 @@
+name: CI
+
+on: [push, pull_request]
+
+env:
+  REGISTRY: "ghcr.io"
+  IMAGE: "ghcr.io/librepcb/docker-librepcb-dev"
+
+jobs:
+  windowsservercore-ltsc2025:
+    name: Windows Server Core LTSC2025
+    runs-on: windows-2025
+    env:
+      TAG: "windowsservercore-ltsc2025-qt6.6-64bit"
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      # First we pull the image, hopefully it will act as a cache to speed
+      # up the build.
+      - name: Docker Pull
+        run: docker pull "${{ env.IMAGE }}:${{ env.TAG }}"
+        continue-on-error: true
+      - name: Docker Build
+        run: docker build -t "${{ env.IMAGE }}:${{ env.TAG }}-ci" "${{ env.TAG }}"
+      - name: Docker Login
+        if: ${{ success() && (github.event_name == 'push') }}
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login "${{ env.REGISTRY }}" -u "${{ github.actor }}" --password-stdin
+      - name: Docker Push
+        if: ${{ success() && (github.event_name == 'push') }}
+        run: docker push "${{ env.IMAGE }}:${{ env.TAG }}-ci"
+      - name: Docker Logout
+        if: ${{ github.event_name == 'push' }}
+        run: docker logout "${{ env.REGISTRY }}"
+        continue-on-error: true
