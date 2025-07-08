@@ -11,7 +11,7 @@ jobs:
     name: Windows Server Core LTSC2025
     runs-on: windows-2025
     env:
-      TAG: "windowsservercore-ltsc2025-qt6.6-64bit"
+      TAG: "windowsservercore-ltsc2025-qt6.9-64bit"
     permissions:
       contents: read
       packages: write

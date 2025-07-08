@@ -55,6 +55,12 @@ and OpenCascade OCCT 7.7.2. This image was intended for deployment of official
 ### `windowsservercore-ltsc2025-qt6.6-64bit`
 
 Based on Windows Server Core LTSC2025 with Qt6.6.x, MinGW 11.2.0 64-bit
+and OpenCascade OCCT 7.9.1. This image was intended for deployment of official
+64-bit binary releases of LibrePCB for Windows.
+
+### `windowsservercore-ltsc2025-qt6.9-64bit`
+
+Based on Windows Server Core LTSC2025 with Qt6.9.x, MinGW 13.1.0 64-bit
 and OpenCascade OCCT 7.9.1. This image is intended for deployment of official
 64-bit binary releases of LibrePCB for Windows.
 
