@@ -209,6 +209,12 @@ RUN curl -o "C:/tmp.exe" -L "%INNOSETUP_URL%" \
   && setx PATH "%PATH%;C:\innosetup" \
   && del C:\tmp.exe
 
+# Install AzureSignTool for signing official releases
+ARG AZURESIGNTOOL_URL="https://github.com/vcsjones/AzureSignTool/releases/download/v6.0.1/AzureSignTool-x64.exe"
+RUN mkdir C:\ast \
+  && curl -o "C:/ast/AzureSignTool.exe" -L "%AZURESIGNTOOL_URL%" \
+  && setx PATH "%PATH%;C:\ast"
+
 # Pre-install a Python version
 RUN uv python install 3.13
 
