@@ -20,7 +20,7 @@ jobs:
       # First we pull the image, hopefully it will act as a cache to speed
       # up the build.
       - name: Docker Pull
-        run: docker pull "${{ env.IMAGE }}:${{ env.TAG }}"
+        run: docker pull "${{ env.IMAGE }}:${{ env.TAG }}-ci"
         continue-on-error: true
       - name: Docker Build
         run: docker build -t "${{ env.IMAGE }}:${{ env.TAG }}-ci" "${{ env.TAG }}"
