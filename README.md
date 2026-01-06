@@ -26,6 +26,20 @@ In addition, this image contains
 [`linuxdeployqt`](https://github.com/probonopd/linuxdeployqt) to build the
 AppImage.
 
+### `ubuntu-22.04-qt6.10`
+
+Based on Ubuntu 22.04, containing Qt 6.10.x from
+[download.qt.io](https://download.qt.io) and OpenCascade OCCT from
+[github/Open-Cascade-SAS/OCCT](https://github.com/Open-Cascade-SAS/OCCT).
+This image is intended for deployment of official binary releases of LibrePCB,
+which should be linked against an old version of `glibc` (for maximum
+compatibility) but still using a recent Qt version (to get the latest
+features/bugfixes of Qt).
+
+In addition, this image contains
+[`linuxdeployqt`](https://github.com/probonopd/linuxdeployqt) to build the
+AppImage.
+
 ### `ubuntu-22.04`
 
 Based on Ubuntu 22.04, containing Qt from the official Ubuntu package
