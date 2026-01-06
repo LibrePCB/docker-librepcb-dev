@@ -51,7 +51,7 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
 
 # Install Rust
 # Make .cargo/ writable for everyone to allow running the container as non-root.
-ARG RUST_VERSION="1.87.0"
+ARG RUST_VERSION="1.92.0"
 ENV RUSTUP_HOME="/.rustup" \
     CARGO_HOME="/.cargo" \
     PATH="/.cargo/bin:$PATH"
@@ -64,7 +64,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
 # Set its python directory to a known, user-writable path to allow accessing the
 # python versions installed during docker build from within CI runs which are
 # run as non-root.
-ARG UV_VERSION="0.7.13"
+ARG UV_VERSION="0.9.21"
 ARG UV_URL="https://github.com/astral-sh/uv/releases/download/$UV_VERSION/uv-x86_64-unknown-linux-gnu.tar.gz"
 ENV UV_PYTHON_INSTALL_DIR="/.uv/python"
 RUN wget -c "${UV_URL}" -O /tmp.tar.gz \
