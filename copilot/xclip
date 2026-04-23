@@ -1,0 +1,2 @@
+#!/bin/sh
+cat | socat - TCP:172.17.0.1:$CLIPBOARD_PORT
