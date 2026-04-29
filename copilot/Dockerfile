@@ -58,11 +58,14 @@ RUN wget -c "${UV_URL}" -O /tmp.tar.gz \
   && mkdir -p $UV_PYTHON_INSTALL_DIR && chmod 777 $UV_PYTHON_INSTALL_DIR
 
 # Install NPM packages
-RUN npm install -g @github/copilot @anthropic-ai/claude-code
+# Use a custom npm prefix that's world-writable so claude code can auto-update
+# when running as a non-root user. Mount this directory as a volume (e.g.
+# `-v claude-npm:/npm-global`) to persist the updated binary across runs.
+ENV NPM_CONFIG_PREFIX="/npm-global" \
+    PATH="/npm-global/bin:$PATH"
+RUN mkdir -p $NPM_CONFIG_PREFIX \
+  && npm install -g @github/copilot @anthropic-ai/claude-code \
+  && chmod -R a+rwX $NPM_CONFIG_PREFIX
 
 # Add xclip wrapper for copilot
 ADD xclip /usr/local/bin/xclip
-
-WORKDIR /work
-
-#ENTRYPOINT ["copilot"]
