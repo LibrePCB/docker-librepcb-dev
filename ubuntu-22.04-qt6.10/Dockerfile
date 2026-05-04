@@ -183,5 +183,10 @@ RUN apt-get remove -y libssl-dev \
   && rm -rf "./openssl-$OPENSSL_VERSION" \
   && rm /tmp.tar.gz
 
+# Make ccache directory writable for everyone to allow running the container
+# as non-root.
+ENV CCACHE_DIR="/.ccache"
+RUN mkdir $CCACHE_DIR && chmod -R 777 $CCACHE_DIR
+
 # LibrePCB's unittests expect that there is a USERNAME environment variable
 ENV USERNAME="root"

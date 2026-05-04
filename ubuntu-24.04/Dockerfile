@@ -76,5 +76,10 @@ RUN wget -c "${UV_URL}" -O /tmp.tar.gz \
 ARG PYTHON_VERSION="3.13"
 RUN uv python install $PYTHON_VERSION
 
+# Make ccache directory writable for everyone to allow running the container
+# as non-root.
+ENV CCACHE_DIR="/.ccache"
+RUN mkdir $CCACHE_DIR && chmod -R 777 $CCACHE_DIR
+
 # LibrePCB's unittests expect that there is a USERNAME environment variable
 ENV USERNAME="root"
