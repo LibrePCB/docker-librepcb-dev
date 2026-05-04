@@ -46,6 +46,19 @@ In addition, this image contains necessary tools for dynamic linking of
 LibrePCB (pkg-config, libdxflib, libmuparser, libquazip, libpolyclipping,
 googletest).
 
+### `ubuntu-26.04`
+
+Based on Ubuntu 26.04, containing Qt from the official Ubuntu package
+repository. This image is intended to check if LibrePCB compiles on a standard
+Ubuntu.
+
+In addition, this image contains necessary tools for dynamic linking of
+LibrePCB (pkg-config, libdxflib, libmuparser, libquazip, libpolyclipping,
+googletest).
+
+Also `clang-tidy`, `clang-tidy-cache` and Clazy for the static code analysis
+are installed in this image.
+
 ### `windowsservercore-ltsc2025-qt6.10-64bit`
 
 Based on Windows Server Core LTSC2025 with Qt6.10.x, MinGW 13.1.0 64-bit
