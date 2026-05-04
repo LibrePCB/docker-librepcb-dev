@@ -12,20 +12,6 @@ The built images are hosted at
 
 ## Available Tags
 
-### `ubuntu-20.04-qt6.6`
-
-Based on Ubuntu 20.04, containing Qt 6.6.x from
-[download.qt.io](https://download.qt.io) and OpenCascade OCCT from
-[github/Open-Cascade-SAS/OCCT](https://github.com/Open-Cascade-SAS/OCCT).
-This image is intended for deployment of official binary releases of LibrePCB,
-which should be linked against an old version of `glibc` (for maximum
-compatibility) but still using a recent Qt version (to get the latest
-features/bugfixes of Qt).
-
-In addition, this image contains
-[`linuxdeployqt`](https://github.com/probonopd/linuxdeployqt) to build the
-AppImage.
-
 ### `ubuntu-22.04-qt6.10`
 
 Based on Ubuntu 22.04, containing Qt 6.10.x from
@@ -59,18 +45,6 @@ Ubuntu.
 In addition, this image contains necessary tools for dynamic linking of
 LibrePCB (pkg-config, libdxflib, libmuparser, libquazip, libpolyclipping,
 googletest).
-
-### `windowsservercore-ltsc2019-qt6.6-64bit`
-
-Based on Windows Server Core LTSC2019 with Qt6.6.x, MinGW 11.2.0 64-bit
-and OpenCascade OCCT 7.7.2. This image was intended for deployment of official
-64-bit binary releases of LibrePCB for Windows.
-
-### `windowsservercore-ltsc2025-qt6.6-64bit`
-
-Based on Windows Server Core LTSC2025 with Qt6.6.x, MinGW 11.2.0 64-bit
-and OpenCascade OCCT 7.9.1. This image was intended for deployment of official
-64-bit binary releases of LibrePCB for Windows.
 
 ### `windowsservercore-ltsc2025-qt6.10-64bit`
 
