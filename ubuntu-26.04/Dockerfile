@@ -27,18 +27,17 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     libgtest-dev \
     libmuparser-dev \
     libmuparser2v5 \
-    # The libocct-*-dev packages have an unnecessary hard dependency on
+    # libocct-data-exchange-dev has an unnecessary hard dependency on
     # libocct-ivtk-dev, which pulls in VTK, Java, MPI, the GCC-16 compiler
     # suite, and ~2GB of other bloat. To work around this Ubuntu 26.04
-    # packaging issue, we install the OCCT runtime packages here via apt
-    # and extract the dev package files (headers, cmake configs, .so symlinks)
-    # separately below using dpkg-deb, bypassing the broken dependency.
+    # packaging issue, we install only the libocct-data-exchange-7.9 runtime
+    # package here via apt (it transitively pulls in all needed OCCT runtime
+    # libs cleanly, without VTK) and extract the dev package files (headers,
+    # cmake configs, .so symlinks) separately below using dpkg-deb, bypassing
+    # the broken dependency. libocct-ivtk-7.9 (112K, two .so files) is also
+    # extracted via dpkg-deb so that OpenCASCADEVisualizationTargets.cmake
+    # can find libTKIVtk.so.7.9 at cmake configure time.
     libocct-data-exchange-7.9 \
-    libocct-foundation-7.9 \
-    libocct-modeling-algorithms-7.9 \
-    libocct-modeling-data-7.9 \
-    libocct-ocaf-7.9 \
-    libocct-visualization-7.9 \
     libpolyclipping-dev \
     libpolyclipping22 \
     libqt6opengl6-dev \
@@ -65,17 +64,14 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     zlib1g-dev \
   # Extract OCCT dev package files (headers, cmake configs, .so symlinks) without
   # going through apt install (which would pull in the unwanted ivtk dependency).
-  # Also extract libocct-ivtk-7.9 (112K .so) so cmake's
-  # OpenCASCADEVisualizationTargets.cmake can find libTKIVtk.so.7.9.
   && cd /tmp \
   && apt-get download \
-       libocct-data-exchange-dev \
-       libocct-draw-dev \
        libocct-foundation-dev \
-       libocct-modeling-algorithms-dev \
        libocct-modeling-data-dev \
+       libocct-modeling-algorithms-dev \
        libocct-ocaf-dev \
        libocct-visualization-dev \
+       libocct-data-exchange-dev \
        libocct-ivtk-7.9 \
   && for f in /tmp/libocct-*.deb; do dpkg-deb -x "$f" /; done \
   && rm -f /tmp/libocct-*.deb \
