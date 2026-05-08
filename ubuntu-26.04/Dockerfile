@@ -27,7 +27,10 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     libgtest-dev \
     libmuparser-dev \
     libmuparser2v5 \
-    libocct-*-dev \
+    # Note: Actually we want libocct-data-exchange-dev, but this pulls in tons
+    # of bloated dependencies (Java?!?!), thus we do in in a complicated way
+    # (see also the apt-get download below).
+    libocct-data-exchange-7.9 \
     libpolyclipping-dev \
     libpolyclipping22 \
     libqt6opengl6-dev \
@@ -52,6 +55,19 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
     xvfb \
     zlib1g \
     zlib1g-dev \
+  # Extract OCCT dev package files (headers, cmake configs, .so symlinks)
+  # without using apt-get install as it would pull in tons of dependencies.
+  && cd /tmp \
+  && apt-get download \
+    libocct-foundation-dev \
+    libocct-modeling-data-dev \
+    libocct-modeling-algorithms-dev \
+    libocct-ocaf-dev \
+    libocct-visualization-dev \
+    libocct-data-exchange-dev \
+    libocct-ivtk-7.9 \
+  && for f in /tmp/libocct-*.deb; do dpkg-deb -x "$f" /; done \
+  && rm -f /tmp/libocct-*.deb \
   && rm -rf /var/lib/apt/lists/*
 
 # Install Rust
@@ -63,6 +79,7 @@ ENV RUSTUP_HOME="/.rustup" \
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
     | sh -s -- -y --default-toolchain $RUST_VERSION --profile minimal --no-modify-path \
   && cargo install cargo-llvm-cov \
+  && rm -rf $CARGO_HOME/registry $CARGO_HOME/git \
   && chmod -R 777 $RUSTUP_HOME \
   && chmod -R 777 $CARGO_HOME
 
