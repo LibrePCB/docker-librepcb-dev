@@ -188,7 +188,7 @@ RUN curl -o "C:/tmp.7z" -L "%QT_IMAGEFORMATS_URL%" \
 # Install Inno Setup
 # Note: 6.4.3 emits some warnings when generating the LibrePCB installer,
 # should be reviewed when upgrading
-ARG INNOSETUP_URL="https://files.jrsoftware.org/is/6/innosetup-6.2.2.exe"
+ARG INNOSETUP_URL="https://github.com/jrsoftware/issrc/releases/download/is-6_2_2/innosetup-6.2.2.exe"
 RUN curl -o "C:/tmp.exe" -L "%INNOSETUP_URL%" \
   && C:/tmp.exe /NOICONS /VERYSILENT /DIR=C:\innosetup \
   && setx PATH "%PATH%;C:\innosetup" \
