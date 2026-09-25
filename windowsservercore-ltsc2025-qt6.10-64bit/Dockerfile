@@ -74,7 +74,7 @@ RUN curl -o "C:/tmp.7z" -L "%MINGW_URL%" \
   && del C:\tmp.7z
 
 # Install Rust
-ARG RUST_VERSION="1.92.0"
+ARG RUST_VERSION="1.98.1"
 ENV RUSTUP_HOME="C:\rustup" \
     CARGO_HOME="C:\cargo"
 RUN curl -o "C:/rustup-init.exe" -L "https://win.rustup.rs/x86_64" \
@@ -83,6 +83,9 @@ RUN curl -o "C:/rustup-init.exe" -L "https://win.rustup.rs/x86_64" \
      --default-host x86_64-pc-windows-gnu \
      --default-toolchain none \
   && C:\cargo\bin\rustup install %RUST_VERSION% \
+  && C:\cargo\bin\cargo install cargo-llvm-cov \
+  && if exist %CARGO_HOME%\registry rmdir %CARGO_HOME%\registry /s /q \
+  && if exist %CARGO_HOME%\git rmdir %CARGO_HOME%\git /s /q \
   && del C:\rustup-init.exe
 
 # Install ZLib
