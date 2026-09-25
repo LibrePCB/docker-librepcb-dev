@@ -51,12 +51,14 @@ RUN apt-get update -q && apt-get -y -q install --no-install-recommends \
 
 # Install Rust
 # Make .cargo/ writable for everyone to allow running the container as non-root.
-ARG RUST_VERSION="1.92.0"
+ARG RUST_VERSION="1.98.1"
 ENV RUSTUP_HOME="/.rustup" \
     CARGO_HOME="/.cargo" \
     PATH="/.cargo/bin:$PATH"
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
     | sh -s -- -y --default-toolchain $RUST_VERSION --profile minimal --no-modify-path \
+  && cargo install cargo-llvm-cov \
+  && rm -rf $CARGO_HOME/registry $CARGO_HOME/git \
   && chmod 777 $RUSTUP_HOME \
   && chmod 777 $CARGO_HOME
 
