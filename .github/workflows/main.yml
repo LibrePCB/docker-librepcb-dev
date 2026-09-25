@@ -25,12 +25,9 @@ jobs:
       - name: Docker Build
         run: docker build -t "${{ env.IMAGE }}:${{ env.TAG }}-ci" "${{ env.TAG }}"
       - name: Docker Login
-        if: ${{ success() && (github.event_name == 'push') }}
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login "${{ env.REGISTRY }}" -u "${{ github.actor }}" --password-stdin
       - name: Docker Push
-        if: ${{ success() && (github.event_name == 'push') }}
         run: docker push "${{ env.IMAGE }}:${{ env.TAG }}-ci"
       - name: Docker Logout
-        if: ${{ github.event_name == 'push' }}
         run: docker logout "${{ env.REGISTRY }}"
         continue-on-error: true
